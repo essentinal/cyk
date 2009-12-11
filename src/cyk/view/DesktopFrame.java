@@ -18,13 +18,19 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import cyk.model.CYKModel;
+import cyk.model.Rule;
+import cyk.model.interfaces.ICYKModel;
+
 @SuppressWarnings("serial")
 public class DesktopFrame extends JInternalFrame {
 
 	// private JDesktopPane desktop;
-	private RuleTableModel model;
+	private RuleTableModel tableModel;
 	private JTextField inputWordField;
 	private JTable table;
+
+	private ICYKModel model;
 
 	public DesktopFrame(String title, JDesktopPane desktop) {
 		super(title, true, true, true, true);
@@ -86,8 +92,10 @@ public class DesktopFrame extends JInternalFrame {
 		constraints.weightx = 1;
 		constraints.weighty = 1;
 
-		model = new RuleTableModel();
-		table = new JTable(model);
+		model = new CYKModel();
+
+		tableModel = new RuleTableModel(model);
+		table = new JTable(tableModel);
 		table.getTableHeader().setPreferredSize(new Dimension(0, 0));
 
 		panel.add(new JScrollPane(table), constraints);
@@ -130,7 +138,7 @@ public class DesktopFrame extends JInternalFrame {
 	}
 
 	private void updateTable() {
-		model.fireTableDataChanged();
+		tableModel.fireTableDataChanged();
 	}
 
 	private class ActionAddParam extends AbstractAction {
@@ -147,11 +155,11 @@ public class DesktopFrame extends JInternalFrame {
 			if (s != null) {
 				if (s.matches("[A-Z]->.")) {
 					// terminalzeichen
-					model.add(s);
+					model.add(new Rule(s));
 					updateTable();
 				} else if (s.matches("[A-Z]->[A-Z]*")) {
 					// nichtterminalzeichen
-					model.add(s);
+					model.add(new Rule(s));
 					updateTable();
 				} else {
 					JOptionPane.showMessageDialog(null,
@@ -172,7 +180,9 @@ public class DesktopFrame extends JInternalFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (table.getSelectedRow() > -1) {
-				model.remove(table.getSelectedRows());
+				for (int i : table.getSelectedColumns()) {
+					model.removeRule(i);
+				}
 				updateTable();
 			}
 		}

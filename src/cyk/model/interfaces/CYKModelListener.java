@@ -1,5 +1,5 @@
 package cyk.model.interfaces;
 
-public class CYKModelListener {
-
+public interface CYKModelListener {
+	public void grammarLoaded();
 }

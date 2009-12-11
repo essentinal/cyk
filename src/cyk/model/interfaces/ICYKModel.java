@@ -11,6 +11,8 @@ public interface ICYKModel {
 
 	public boolean parseWord(String word);
 
+	public boolean checkGrammar();
+
 	public int getSize();
 
 	public void add(Rule rule);
@@ -18,7 +20,5 @@ public interface ICYKModel {
 	public Rule getRule(int i);
 
 	public void removeRule(int i);
-
-	public void addModelListener(CYKModelListener listener);
 
 }
