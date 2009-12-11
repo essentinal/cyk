@@ -9,7 +9,7 @@ public interface ICYKModel {
 
 	public boolean load(File file);
 
-	public boolean parseWord();
+	public boolean parseWord(String word);
 
 	public int getSize();
 
