@@ -4,22 +4,22 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
 
-import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import cyk.controller.ActionAddRule;
+import cyk.controller.ActionCheckGrammar;
+import cyk.controller.ActionRandomWord;
+import cyk.controller.ActionRemoveRule;
 import cyk.model.CYKModel;
-import cyk.model.Rule;
 import cyk.model.interfaces.ICYKModel;
 
 @SuppressWarnings("serial")
@@ -38,6 +38,8 @@ public class DesktopFrame extends JInternalFrame {
 		setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
 
 		setLayout(new GridBagLayout());
+
+		model = new CYKModel();
 
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.insets = new Insets(5, 5, 5, 5);
@@ -60,6 +62,14 @@ public class DesktopFrame extends JInternalFrame {
 
 	}
 
+	public void load() {
+
+	}
+
+	public void save() {
+
+	}
+
 	private JPanel buildLeftPanel() {
 		JPanel panel = new JPanel();
 		panel.setBorder(BorderFactory.createTitledBorder("Grammatik"));
@@ -71,19 +81,23 @@ public class DesktopFrame extends JInternalFrame {
 		constraints.gridy = 0;
 		constraints.anchor = GridBagConstraints.WEST;
 
-		panel.add(new JButton(new ActionCheckGrammar()), constraints);
+		panel.add(new JButton(new ActionCheckGrammar(model)), constraints);
 
 		constraints.gridy++;
 
 		panel.add(new JLabel("Regeln"), constraints);
 		constraints.gridy++;
 
-		panel.add(new JButton(new ActionAddParam()), constraints);
+		panel.add(new JButton(new ActionAddRule(model)), constraints);
 
 		constraints.gridx++;
 		constraints.anchor = GridBagConstraints.EAST;
 
-		panel.add(new JButton(new ActionRemoveParam()), constraints);
+		tableModel = new RuleTableModel(model);
+		table = new JTable(tableModel);
+		table.getTableHeader().setPreferredSize(new Dimension(0, 0));
+
+		panel.add(new JButton(new ActionRemoveRule(model, table)), constraints);
 
 		constraints.gridx = 0;
 		constraints.gridy++;
@@ -91,12 +105,6 @@ public class DesktopFrame extends JInternalFrame {
 		constraints.fill = GridBagConstraints.BOTH;
 		constraints.weightx = 1;
 		constraints.weighty = 1;
-
-		model = new CYKModel();
-
-		tableModel = new RuleTableModel(model);
-		table = new JTable(tableModel);
-		table.getTableHeader().setPreferredSize(new Dimension(0, 0));
 
 		panel.add(new JScrollPane(table), constraints);
 		updateTable();
@@ -132,84 +140,12 @@ public class DesktopFrame extends JInternalFrame {
 		constraints.weightx = 0.0;
 		constraints.fill = GridBagConstraints.NONE;
 
-		panel.add(new JButton(new ActionRandomWord()), constraints);
+		panel.add(new JButton(new ActionRandomWord(inputWordField)), constraints);
 
 		return panel;
 	}
 
 	private void updateTable() {
 		tableModel.fireTableDataChanged();
-	}
-
-	private class ActionAddParam extends AbstractAction {
-		public ActionAddParam() {
-			super("Hinzufügen...");
-			putValue(AbstractAction.SHORT_DESCRIPTION, "Eine neue Regel hinzufügen");
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			String s = JOptionPane.showInputDialog(null,
-					"Neue Regel im Format A->a oder A->A eingeben");
-
-			if (s != null) {
-				if (s.matches("[A-Z]->.")) {
-					// terminalzeichen
-					model.add(new Rule(s));
-					updateTable();
-				} else if (s.matches("[A-Z]->[A-Z]*")) {
-					// nichtterminalzeichen
-					model.add(new Rule(s));
-					updateTable();
-				} else {
-					JOptionPane.showMessageDialog(null,
-							"Dies entspricht nicht den Regeln A->a oder A->A.");
-				}
-
-			}
-		}
-	}
-
-	private class ActionRemoveParam extends AbstractAction {
-		public ActionRemoveParam() {
-			super("Entfernen");
-			putValue(AbstractAction.SHORT_DESCRIPTION,
-					"Die ausgewählte Regel entfernen");
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if (table.getSelectedRow() > -1) {
-				for (int i : table.getSelectedColumns()) {
-					model.removeRule(i);
-				}
-				updateTable();
-			}
-		}
-	}
-
-	private class ActionCheckGrammar extends AbstractAction {
-		public ActionCheckGrammar() {
-			super("Grammatik überprüfen");
-			putValue(AbstractAction.SHORT_DESCRIPTION,
-					"Überprüfen, ob die Grammatik in Chomsky-Normalform ist");
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			System.out.println("check grammar");
-		}
-	}
-
-	private class ActionRandomWord extends AbstractAction {
-		public ActionRandomWord() {
-			super("Zufallswort...");
-			putValue(AbstractAction.SHORT_DESCRIPTION, "Ein Wort zufällig erzeugen");
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			new DialogRandomWord(inputWordField);
-		}
 	}
 }
