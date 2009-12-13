@@ -2,15 +2,17 @@ package cyk.view;
 
 import javax.swing.table.AbstractTableModel;
 
+import cyk.model.interfaces.CYKModelListener;
 import cyk.model.interfaces.ICYKModel;
 
 @SuppressWarnings("serial")
-public class RuleTableModel extends AbstractTableModel {
+public class RuleTableModel extends AbstractTableModel implements
+		CYKModelListener {
 	private final ICYKModel model;
 
 	public RuleTableModel(ICYKModel model) {
 		this.model = model;
-
+		model.addCYKModelListener(this);
 	}
 
 	@Override
@@ -46,5 +48,10 @@ public class RuleTableModel extends AbstractTableModel {
 	@Override
 	public void fireTableDataChanged() {
 		super.fireTableDataChanged();
+	}
+
+	@Override
+	public void modelChanged() {
+		fireTableDataChanged();
 	}
 }
