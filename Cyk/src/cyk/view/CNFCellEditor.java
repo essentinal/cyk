@@ -24,7 +24,7 @@ public class CNFCellEditor extends AbstractCellEditor implements
 		if (value instanceof Rule) {
 			textField.setText(value.toString());
 			textField.setCaretPosition(0);
-			textField.requestFocus();
+			textField.requestFocusInWindow();
 		}
 		return textField;
 	}
