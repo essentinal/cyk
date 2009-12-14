@@ -7,10 +7,10 @@ import javax.swing.AbstractAction;
 import cyk.model.interfaces.ICYKModel;
 
 @SuppressWarnings("serial")
-public class ActionAddRule extends AbstractAction {
+public class ActionTableAddRule extends AbstractAction {
 	private final ICYKModel model;
 
-	public ActionAddRule(ICYKModel model) {
+	public ActionTableAddRule(ICYKModel model) {
 		super("Hinzufügen");
 		this.model = model;
 

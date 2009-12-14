@@ -9,11 +9,11 @@ import javax.swing.JTable;
 import cyk.model.interfaces.ICYKModel;
 
 @SuppressWarnings("serial")
-public class ActionRemoveRule extends AbstractAction {
+public class ActionTableRemoveRule extends AbstractAction {
 	private final ICYKModel model;
 	private final JTable table;
 
-	public ActionRemoveRule(final ICYKModel model, final JTable table) {
+	public ActionTableRemoveRule(final ICYKModel model, final JTable table) {
 		super("Entfernen");
 		this.model = model;
 		this.table = table;
