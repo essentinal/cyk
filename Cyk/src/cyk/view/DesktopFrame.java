@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -20,10 +22,12 @@ import cyk.controller.ActionCheckGrammar;
 import cyk.controller.ActionRandomWord;
 import cyk.controller.ActionRemoveRule;
 import cyk.model.CYKModel;
+import cyk.model.Rule;
+import cyk.model.interfaces.CYKModelListener;
 import cyk.model.interfaces.ICYKModel;
 
 @SuppressWarnings("serial")
-public class DesktopFrame extends JInternalFrame {
+public class DesktopFrame extends JInternalFrame implements CYKModelListener {
 
 	// private JDesktopPane desktop;
 	private RuleTableModel tableModel;
@@ -93,9 +97,33 @@ public class DesktopFrame extends JInternalFrame {
 		constraints.gridx++;
 		constraints.anchor = GridBagConstraints.EAST;
 
+		model.addCYKModelListener(this);
 		tableModel = new RuleTableModel(model);
 		table = new JTable(tableModel);
+		table.setDefaultEditor(Rule.class, new CNFCellEditor());
 		table.getTableHeader().setPreferredSize(new Dimension(0, 0));
+		table.addKeyListener(new KeyAdapter() {
+			private boolean edit = false;
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (Character.isLetterOrDigit(e.getKeyChar())) {
+					int row = table.getSelectedRow();
+					table.editCellAt(row, 0);
+					((CNFCellEditor) table.getCellEditor(0, 0)).requestFocus();
+					e.consume();
+					edit = true;
+				}
+			}
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if (edit) {
+					e.consume();
+					edit = false;
+				}
+			}
+		});
 
 		panel.add(new JButton(new ActionRemoveRule(model, table)), constraints);
 
@@ -107,7 +135,6 @@ public class DesktopFrame extends JInternalFrame {
 		constraints.weighty = 1;
 
 		panel.add(new JScrollPane(table), constraints);
-		updateTable();
 
 		return panel;
 
@@ -145,7 +172,13 @@ public class DesktopFrame extends JInternalFrame {
 		return panel;
 	}
 
-	private void updateTable() {
-		tableModel.fireTableDataChanged();
+	@Override
+	public void modelChanged() {
+	}
+
+	@Override
+	public void ruleAdded() {
+		table.editCellAt(0, 0);
+		((CNFCellEditor) table.getCellEditor(0, 0)).requestFocus();
 	}
 }

@@ -11,4 +11,9 @@ public class TerminalSymbol extends Symbol {
 		super(character);
 
 	}
+
+	@Override
+	public boolean isTerminal() {
+		return true;
+	}
 }

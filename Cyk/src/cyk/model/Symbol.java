@@ -18,4 +18,10 @@ public abstract class Symbol {
 	public String toString() {
 		return String.valueOf(character);
 	}
+
+	public char getCharacter() {
+		return character;
+	}
+
+	public abstract boolean isTerminal();
 }
