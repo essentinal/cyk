@@ -7,6 +7,7 @@ import java.awt.Insets;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
@@ -33,6 +34,7 @@ public class DesktopFrame extends JInternalFrame implements CYKModelListener {
 	private RuleTableModel tableModel;
 	private JTextField inputWordField;
 	private JTable table;
+	private AbstractAction actionRemoveRule;
 
 	private ICYKModel model;
 
@@ -113,6 +115,9 @@ public class DesktopFrame extends JInternalFrame implements CYKModelListener {
 					((CNFCellEditor) table.getCellEditor(0, 0)).requestFocus();
 					e.consume();
 					edit = true;
+				} else if (e.getKeyCode() == KeyEvent.VK_DELETE) {
+					actionRemoveRule.actionPerformed(null);
+					e.consume();
 				}
 			}
 
@@ -125,7 +130,9 @@ public class DesktopFrame extends JInternalFrame implements CYKModelListener {
 			}
 		});
 
-		panel.add(new JButton(new ActionRemoveRule(model, table)), constraints);
+		panel.add(
+				new JButton(actionRemoveRule = new ActionRemoveRule(model, table)),
+				constraints);
 
 		constraints.gridx = 0;
 		constraints.gridy++;

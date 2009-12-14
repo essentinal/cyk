@@ -5,27 +5,12 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
-import javax.swing.text.DefaultStyledDocument;
-import javax.swing.text.Style;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyleContext;
 
 @SuppressWarnings("serial")
 public class CNFTextField extends JTextField implements KeyListener {
 	private String text = " ->";
 
 	public CNFTextField() {
-
-		DefaultStyledDocument doc = new DefaultStyledDocument();
-
-		Style style = (Style) doc.getStyle(StyleContext.DEFAULT_STYLE);
-		StyleConstants.setBold(style, true);
-		StyleConstants.setItalic(style, true);
-
-		setDocument(doc);
-
-		// doc.setCharacterAttributes(0, 1, , true);
-
 		setText(text);
 		addKeyListener(this);
 	}
@@ -75,7 +60,7 @@ public class CNFTextField extends JTextField implements KeyListener {
 					}
 				});
 				ev.consume();
-			} else if (pos == 3) {
+			} else if (pos > 1 && pos <= 3) {
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						setCaretPosition(0);
