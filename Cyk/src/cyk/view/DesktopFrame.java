@@ -18,10 +18,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-import cyk.controller.ActionAddRule;
+import cyk.controller.ActionTableAddRule;
 import cyk.controller.ActionCheckGrammar;
 import cyk.controller.ActionRandomWord;
-import cyk.controller.ActionRemoveRule;
+import cyk.controller.ActionTableRemoveRule;
 import cyk.model.CYKModel;
 import cyk.model.Rule;
 import cyk.model.interfaces.CYKModelListener;
@@ -94,7 +94,7 @@ public class DesktopFrame extends JInternalFrame implements CYKModelListener {
 		panel.add(new JLabel("Regeln"), constraints);
 		constraints.gridy++;
 
-		panel.add(new JButton(new ActionAddRule(model)), constraints);
+		panel.add(new JButton(new ActionTableAddRule(model)), constraints);
 
 		constraints.gridx++;
 		constraints.anchor = GridBagConstraints.EAST;
@@ -131,7 +131,7 @@ public class DesktopFrame extends JInternalFrame implements CYKModelListener {
 		});
 
 		panel.add(
-				new JButton(actionRemoveRule = new ActionRemoveRule(model, table)),
+				new JButton(actionRemoveRule = new ActionTableRemoveRule(model, table)),
 				constraints);
 
 		constraints.gridx = 0;

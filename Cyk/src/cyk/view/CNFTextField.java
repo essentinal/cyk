@@ -13,6 +13,7 @@ public class CNFTextField extends JTextField implements KeyListener {
 	public CNFTextField() {
 		setText(text);
 		addKeyListener(this);
+
 	}
 
 	@Override
@@ -31,9 +32,6 @@ public class CNFTextField extends JTextField implements KeyListener {
 		char c = ev.getKeyChar();
 		int pos = getSelectionStart();
 
-		System.out.println("pressed: " + c);
-		System.out.println(pos);
-
 		// KEYS ALLOWED
 
 		if ((ev.getKeyCode() == KeyEvent.VK_TAB)) {
@@ -50,7 +48,6 @@ public class CNFTextField extends JTextField implements KeyListener {
 					}
 				});
 			}
-			ev.consume();
 		} else if ((ev.getKeyCode() == KeyEvent.VK_BACK_SPACE)
 				|| (ev.getKeyCode() == KeyEvent.VK_LEFT)) {
 			if (pos == 1) {
@@ -59,14 +56,12 @@ public class CNFTextField extends JTextField implements KeyListener {
 						setCaretPosition(0);
 					}
 				});
-				ev.consume();
 			} else if (pos > 1 && pos <= 3) {
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						setCaretPosition(0);
 					}
 				});
-				ev.consume();
 			} else {
 				return;
 			}
@@ -79,9 +74,7 @@ public class CNFTextField extends JTextField implements KeyListener {
 						setCaretPosition(3);
 					}
 				});
-				ev.consume();
 			}
-
 		} else if (ev.getKeyCode() == KeyEvent.VK_ENTER) {
 			return;
 		}
@@ -101,7 +94,6 @@ public class CNFTextField extends JTextField implements KeyListener {
 				});
 			}
 
-			// break;
 			return;
 		case 1:
 		case 2:
@@ -112,7 +104,6 @@ public class CNFTextField extends JTextField implements KeyListener {
 					}
 				});
 			}
-			// break;
 			return;
 		case 3:
 			if (Character.isLetter(c)) {
@@ -125,7 +116,6 @@ public class CNFTextField extends JTextField implements KeyListener {
 					}
 				});
 			}
-			// break;
 			return;
 		case 4:
 			if (Character.isLetter(c)) {
@@ -133,13 +123,10 @@ public class CNFTextField extends JTextField implements KeyListener {
 					text = text.substring(0, 4) + c;
 				setText(text);
 			}
-			// break;
 			return;
 		}
 
-		// if (!Character.isISOControl(ev.getKeyChar()) || ev.isShiftDown()) {
 		ev.consume();
-		// }
 	}
 
 	@Override
