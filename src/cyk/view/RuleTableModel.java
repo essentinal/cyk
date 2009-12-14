@@ -2,6 +2,7 @@ package cyk.view;
 
 import javax.swing.table.AbstractTableModel;
 
+import cyk.model.Rule;
 import cyk.model.interfaces.CYKModelListener;
 import cyk.model.interfaces.ICYKModel;
 
@@ -17,7 +18,7 @@ public class RuleTableModel extends AbstractTableModel implements
 
 	@Override
 	public Class<?> getColumnClass(int col) {
-		return String.class;
+		return Rule.class;
 	}
 
 	@Override
@@ -36,22 +37,28 @@ public class RuleTableModel extends AbstractTableModel implements
 	}
 
 	@Override
-	public String getValueAt(int row, int column) {
-		return model.getRule(row).toString();
+	public Rule getValueAt(int row, int column) {
+		return model.getRule(row);
+	}
+
+	@Override
+	public void setValueAt(Object value, int rowIndex, int columnIndex) {
+		if (value instanceof Rule) {
+			model.setRuleAt((Rule) value, rowIndex);
+		}
 	}
 
 	@Override
 	public boolean isCellEditable(int row, int column) {
-		return false;
-	}
-
-	@Override
-	public void fireTableDataChanged() {
-		super.fireTableDataChanged();
+		return true;
 	}
 
 	@Override
 	public void modelChanged() {
 		fireTableDataChanged();
+	}
+
+	@Override
+	public void ruleAdded() {
 	}
 }

@@ -18,7 +18,9 @@ public interface ICYKModel {
 
 	public int getSize();
 
-	public void addRule(Rule rule);
+	public void addRule();
+
+	public void setRuleAt(Rule rule, int index);
 
 	public Rule getRule(int i);
 

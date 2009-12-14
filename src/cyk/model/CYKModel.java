@@ -18,9 +18,23 @@ public class CYKModel implements ICYKModel {
 
 	private final Grammar grammar = new Grammar();
 
+	public CYKModel() {
+		// TODO: FOR DEBUGGING ONLY
+		grammar.add(new Rule("S->A"));
+		grammar.add(new Rule("A->a"));
+	}
+
 	@Override
-	public void addRule(Rule rule) {
-		grammar.add(rule);
+	public void addRule() {
+		grammar.add(0, new Rule("S->S"));
+		fireModelChanged();
+		fireRuleAdded();
+	}
+
+	@Override
+	public void setRuleAt(Rule rule, int index) {
+		grammar.set(index, rule);
+		grammar.sort();
 		fireModelChanged();
 	}
 
@@ -79,6 +93,12 @@ public class CYKModel implements ICYKModel {
 	private void fireModelChanged() {
 		for (CYKModelListener l : listeners) {
 			l.modelChanged();
+		}
+	}
+
+	private void fireRuleAdded() {
+		for (CYKModelListener l : listeners) {
+			l.ruleAdded();
 		}
 	}
 }

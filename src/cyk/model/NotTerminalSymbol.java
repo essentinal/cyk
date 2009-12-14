@@ -12,4 +12,9 @@ public class NotTerminalSymbol extends Symbol {
 
 	}
 
+	@Override
+	public boolean isTerminal() {
+		return false;
+	}
+
 }

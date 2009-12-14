@@ -42,6 +42,10 @@ public class Rule {
 		return right;
 	}
 
+	public boolean isStartRule() {
+		return left.getCharacter() == 'S';
+	}
+
 	@Override
 	public String toString() {
 		return left.toString() + "->" + right.toString();
