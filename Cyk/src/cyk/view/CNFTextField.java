@@ -56,7 +56,8 @@ public class CNFTextField extends JTextField implements KeyListener {
 						setCaretPosition(0);
 					}
 				});
-			} else if (pos > 1 && pos <= 3) {
+			} else if (pos > 1 && pos < 4) {
+				System.out.println(pos);
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						setCaretPosition(0);
@@ -74,6 +75,8 @@ public class CNFTextField extends JTextField implements KeyListener {
 						setCaretPosition(3);
 					}
 				});
+			} else {
+				return;
 			}
 		} else if (ev.getKeyCode() == KeyEvent.VK_ENTER) {
 			return;
@@ -84,17 +87,15 @@ public class CNFTextField extends JTextField implements KeyListener {
 		switch (pos) {
 		case 0:
 			if (Character.isLetter(c) && Character.isUpperCase(c)) {
-				text = c + text.substring(1);
-				setText(text);
+				setText(c + text.substring(1));
 
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						setCaretPosition(3);
 					}
 				});
+				return;
 			}
-
-			return;
 		case 1:
 		case 2:
 			if (Character.isLetterOrDigit(c)) {
@@ -103,27 +104,25 @@ public class CNFTextField extends JTextField implements KeyListener {
 						setCaretPosition(3);
 					}
 				});
+				return;
 			}
-			return;
 		case 3:
 			if (Character.isLetter(c)) {
-				text = text.substring(0, 3) + c;
-				setText(text);
+				setText(text.substring(0, 3) + c);
 
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						setCaretPosition(4);
 					}
 				});
+				return;
 			}
-			return;
 		case 4:
 			if (Character.isLetter(c)) {
 				if (Character.isUpperCase(c) && Character.isUpperCase(text.charAt(3)))
-					text = text.substring(0, 4) + c;
-				setText(text);
+					setText(text.substring(0, 4) + c);
+				return;
 			}
-			return;
 		}
 
 		ev.consume();
@@ -138,6 +137,7 @@ public class CNFTextField extends JTextField implements KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent ev) {
+		text = super.getText();
 		if (Character.isLetterOrDigit(ev.getKeyChar())) {
 			ev.consume();
 		}
