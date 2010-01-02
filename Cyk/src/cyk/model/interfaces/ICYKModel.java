@@ -20,6 +20,8 @@ public interface ICYKModel {
 
 	public boolean parseWord(String word);
 
+	public String getRandomWord(int length);
+
 	public boolean checkGrammar();
 
 	public int getSize();

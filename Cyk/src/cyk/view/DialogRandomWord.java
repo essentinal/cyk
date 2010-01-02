@@ -15,17 +15,20 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
 import cyk.controller.ActionCancelDialog;
+import cyk.model.interfaces.ICYKModel;
 
 @SuppressWarnings("serial")
 public class DialogRandomWord extends JDialog {
 	private static int lastLength = 5;
 
 	private JSpinner numberSpinner;
-	private JTextField textField;
+	private final JTextField textField;
+	private final ICYKModel model;
 
-	public DialogRandomWord(JTextField textField) {
+	public DialogRandomWord(JTextField textField, ICYKModel model) {
 		super((Frame) null, "Zufallswort erzeugen", true);
 		this.textField = textField;
+		this.model = model;
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setResizable(false);
 
@@ -74,13 +77,7 @@ public class DialogRandomWord extends JDialog {
 			int length = (Integer) numberSpinner.getValue();
 			lastLength = length;
 
-			char[] word = new char[length];
-
-			for (int i = 0; i < length; i++) {
-				word[i] = (char) (Math.random() * 24 + 97);
-
-				System.out.println(word[i]);
-			}
+			String word = model.getRandomWord(length);
 
 			textField.setText(new String(word));
 			dispose();

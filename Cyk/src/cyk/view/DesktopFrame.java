@@ -240,7 +240,8 @@ public class DesktopFrame extends JInternalFrame implements CYKModelListener {
 		constraints.weightx = 0.0;
 		constraints.fill = GridBagConstraints.NONE;
 
-		panel.add(new JButton(new ActionRandomWord(inputWordField)), constraints);
+		panel.add(new JButton(new ActionRandomWord(inputWordField, model)),
+				constraints);
 
 		constraints.gridx = 0;
 		constraints.gridy++;

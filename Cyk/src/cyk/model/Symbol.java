@@ -19,6 +19,14 @@ public abstract class Symbol {
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Symbol) {
+			return ((Symbol) obj).character == character;
+		}
+		return false;
+	}
+
+	@Override
 	public String toString() {
 		return String.valueOf(character);
 	}
@@ -37,21 +45,16 @@ public abstract class Symbol {
 
 		char c = element.getText().charAt(0);
 
-		if (Character.isLowerCase(c)) {
-			return new TerminalSymbol(c);
-		} else {
+		if (Character.isUpperCase(c)) {
 			return new NonTerminalSymbol(c);
+		} else {
+			return new TerminalSymbol(c);
 		}
 	}
 
 	public Element toXml() {
 		Element symbol = new Element("symbol");
 		symbol.addContent(toString());
-
-		if (!CYKModel.USE_SIMPLE_FORMAT) {
-			symbol.setAttribute("terminal", String.valueOf(isTerminal()));
-		}
-
 		return symbol;
 	}
 }
