@@ -2,6 +2,10 @@ package cyk.model;
 
 import java.util.ArrayList;
 
+import org.jdom.Element;
+
+import cyk.model.interfaces.IXML;
+
 /**
  * Einfache Liste von Symbolen mit überschriebener toString()-Methode.
  * 
@@ -9,8 +13,12 @@ import java.util.ArrayList;
  * 
  */
 @SuppressWarnings("serial")
-public class SymbolList extends ArrayList<Symbol> {
+public class SymbolList extends ArrayList<Symbol> implements IXML {
 	public SymbolList() {
+	}
+
+	public SymbolList(Element element) {
+		parse(element);
 	}
 
 	public SymbolList(int size) {
@@ -24,6 +32,20 @@ public class SymbolList extends ArrayList<Symbol> {
 			str += s.toString();
 		}
 		return str;
+	}
+
+	@Override
+	public void parse(Element element) {
+
+	}
+
+	@Override
+	public Element toXml() {
+		Element root = new Element("right");
+		for (Symbol s : this) {
+			root.addContent(s.toXml());
+		}
+		return root;
 	}
 
 }

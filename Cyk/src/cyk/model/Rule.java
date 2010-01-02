@@ -1,5 +1,9 @@
 package cyk.model;
 
+import org.jdom.Element;
+
+import cyk.model.interfaces.IXML;
+
 /**
  * Dies ist eine Regel in CNF. Eine Regel hat eine linke Seite, die ein
  * Nichtterminalzeichen sein muss und eine rechte Seite, die aus einem
@@ -8,7 +12,7 @@ package cyk.model;
  * @author Stephan
  * 
  */
-public class Rule {
+public class Rule implements IXML {
 	private NotTerminalSymbol left;
 	private SymbolList right;
 
@@ -34,6 +38,10 @@ public class Rule {
 		}
 	}
 
+	public Rule(Element e) {
+		parse(e);
+	}
+
 	public NotTerminalSymbol getLeft() {
 		return left;
 	}
@@ -44,6 +52,10 @@ public class Rule {
 
 	public boolean isStartRule() {
 		return left.getCharacter() == 'S';
+	}
+
+	public boolean isTerminalRule() {
+		return right.get(0).isTerminal();
 	}
 
 	@Override
@@ -57,5 +69,28 @@ public class Rule {
 		System.out.println(r);
 		System.out.println("LEFT:  " + r.getLeft());
 		System.out.println("RIGHT:  " + r.getRight());
+	}
+
+	@Override
+	public void parse(Element element) {
+		left = (NotTerminalSymbol) Symbol.parse(element);
+
+	}
+
+	@Override
+	public Element toXml() {
+		Element rule = new Element("rule");
+
+		if (!CYKModel.USE_SIMPLE_FORMAT) {
+			rule.setAttribute("startrule", String.valueOf(isStartRule()));
+		}
+
+		Element leftE = new Element("left");
+		rule.addContent(leftE);
+		leftE.addContent(left.toXml());
+
+		rule.addContent(right.toXml());
+
+		return rule;
 	}
 }
