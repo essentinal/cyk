@@ -1,16 +1,20 @@
 package cyk.model.interfaces;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
+
+import org.jdom.JDOMException;
 
 import cyk.model.Rule;
 
 public interface ICYKModel {
 	public void addCYKModelListener(CYKModelListener listener);
 
-	public boolean save(File file);
+	public void save(File file) throws FileNotFoundException, IOException;
 
-	public boolean load(File file);
+	public void load(File file) throws JDOMException, IOException;
 
 	public boolean parseWord(String word);
 

@@ -1,11 +1,16 @@
 package cyk.model;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jdom.JDOMException;
+
 import cyk.model.interfaces.CYKModelListener;
 import cyk.model.interfaces.ICYKModel;
+import cyk.util.XMLUtil;
 
 /**
  * Dies ist das Model, die Kernfunktionalität des Programms.
@@ -14,6 +19,8 @@ import cyk.model.interfaces.ICYKModel;
  * 
  */
 public class CYKModel implements ICYKModel {
+	public static final boolean USE_SIMPLE_FORMAT = true;
+
 	private final ArrayList<CYKModelListener> listeners = new ArrayList<CYKModelListener>();
 
 	private final Grammar grammar = new Grammar();
@@ -63,18 +70,15 @@ public class CYKModel implements ICYKModel {
 	}
 
 	@Override
-	public boolean save(File file) {
-
-		return false;
+	public void save(File file) throws FileNotFoundException, IOException {
+		XMLUtil.output(grammar.toXml(), file);
 	}
 
 	@Override
-	public boolean load(File file) {
-
-		// LOAD HERE
+	public void load(File file) throws JDOMException, IOException {
+		this.grammar.parse(XMLUtil.read(file));
 
 		fireModelChanged();
-		return false;
 	}
 
 	@Override
