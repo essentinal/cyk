@@ -16,7 +16,9 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
 import cyk.controller.ActionCancelDialog;
-import cyk.model.exceptions.GrammarException;
+import cyk.model.exceptions.GrammarIncompleteException;
+import cyk.model.exceptions.GrammarNoDeriveException;
+import cyk.model.exceptions.GrammarNoStartruleException;
 import cyk.model.interfaces.ICYKModel;
 
 @SuppressWarnings("serial")
@@ -86,10 +88,26 @@ public class DialogRandomWord extends JDialog {
 				String word = model.getRandomWord(length);
 
 				textField.setText(new String(word));
-			} catch (GrammarException ex) {
+			} catch (GrammarIncompleteException ex) {
+				textField.setText("");
 				JOptionPane.showMessageDialog(null,
 						"Fehler beim Erzeugen des Worts. Die Grammatik ist unvollständig.",
 						"Grammatikfehler", JOptionPane.ERROR_MESSAGE);
+			} catch (GrammarNoDeriveException ex) {
+				textField.setText("");
+				JOptionPane
+						.showMessageDialog(
+								null,
+								"Fehler beim Erzeugen des Worts. Mit dieser Grammatik kann kein Wort der Länge "
+										+ length + " oder weniger erzeugt werden.",
+								"Grammatikfehler", JOptionPane.ERROR_MESSAGE);
+			} catch (GrammarNoStartruleException ex) {
+				textField.setText("");
+				JOptionPane
+						.showMessageDialog(
+								null,
+								"Fehler beim Erzeugen des Worts. Diese Grammatik hat keine Startregel.",
+								"Grammatikfehler", JOptionPane.ERROR_MESSAGE);
 			}
 			dispose();
 		}

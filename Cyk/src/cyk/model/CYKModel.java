@@ -8,7 +8,9 @@ import java.util.List;
 
 import org.jdom.JDOMException;
 
-import cyk.model.exceptions.GrammarException;
+import cyk.model.exceptions.GrammarIncompleteException;
+import cyk.model.exceptions.GrammarNoDeriveException;
+import cyk.model.exceptions.GrammarNoStartruleException;
 import cyk.model.exceptions.GrammarParseException;
 import cyk.model.exceptions.RuleException;
 import cyk.model.interfaces.CYKModelListener;
@@ -118,7 +120,8 @@ public class CYKModel implements ICYKModel {
 		}
 	}
 
-	public String getRandomWord(int length) throws GrammarException {
+	public String getRandomWord(int length) throws GrammarIncompleteException,
+			GrammarNoDeriveException, GrammarNoStartruleException {
 		return new RandomWord(grammar, length).derive("S");
 	}
 
