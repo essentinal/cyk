@@ -13,11 +13,11 @@ import cyk.model.interfaces.IXML;
  * 
  */
 public class Rule implements IXML {
-	private NotTerminalSymbol left;
+	private NonTerminalSymbol left;
 	private SymbolList right;
 
 	public Rule(String s) {
-		left = new NotTerminalSymbol(s.charAt(0));
+		left = new NonTerminalSymbol(s.charAt(0));
 
 		// Rechte Seite kann max 2 stellen haben
 		right = new SymbolList(2);
@@ -28,7 +28,7 @@ public class Rule implements IXML {
 			Symbol sym;
 			if (Character.isUpperCase(c)) {
 				// if c == A
-				sym = new NotTerminalSymbol(c);
+				sym = new NonTerminalSymbol(c);
 			} else {
 				// if c == a
 				sym = new TerminalSymbol(c);
@@ -42,7 +42,7 @@ public class Rule implements IXML {
 		parse(e);
 	}
 
-	public NotTerminalSymbol getLeft() {
+	public NonTerminalSymbol getLeft() {
 		return left;
 	}
 
@@ -73,7 +73,7 @@ public class Rule implements IXML {
 
 	@Override
 	public void parse(Element element) {
-		left = (NotTerminalSymbol) Symbol.parse(element);
+		left = (NonTerminalSymbol) Symbol.parse(element);
 
 	}
 

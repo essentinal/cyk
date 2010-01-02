@@ -33,7 +33,7 @@ public abstract class Symbol {
 		if (element.getAttributeValue("terminal").equals("true")) {
 			return new TerminalSymbol(c);
 		} else {
-			return new NotTerminalSymbol(c);
+			return new NonTerminalSymbol(c);
 		}
 
 	}
