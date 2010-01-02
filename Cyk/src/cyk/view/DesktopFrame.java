@@ -25,6 +25,7 @@ import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import cyk.controller.ActionCheckGrammar;
+import cyk.controller.ActionCheckWord;
 import cyk.controller.ActionRandomWord;
 import cyk.controller.ActionTableAddRule;
 import cyk.controller.ActionTableRemoveRule;
@@ -52,7 +53,7 @@ public class DesktopFrame extends JInternalFrame implements CYKModelListener {
 		init(desktop);
 	}
 
-	public DesktopFrame(String title, JDesktopPane desktop, CYKModel model) {
+	public DesktopFrame(String title, JDesktopPane desktop, ICYKModel model) {
 		super(title, true, true, true, true);
 
 		this.model = model;
@@ -75,6 +76,8 @@ public class DesktopFrame extends JInternalFrame implements CYKModelListener {
 
 		constraints.gridx++;
 		constraints.weightx = 0.6;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		constraints.anchor = GridBagConstraints.NORTH;
 		add(buildRightPanel(), constraints);
 
 		int numframes = (desktop.getAllFrames().length) % 5;
@@ -235,12 +238,21 @@ public class DesktopFrame extends JInternalFrame implements CYKModelListener {
 		inputWordField = new JTextField();
 		panel.add(inputWordField, constraints);
 
-		// constraints.gridx = 0;
 		constraints.gridx++;
 		constraints.weightx = 0.0;
 		constraints.fill = GridBagConstraints.NONE;
 
 		panel.add(new JButton(new ActionRandomWord(inputWordField)), constraints);
+
+		constraints.gridx = 0;
+		constraints.gridy++;
+		constraints.weightx = 0.0;
+
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		constraints.gridwidth = 3;
+
+		panel.add(new JButton(new ActionCheckWord(model, inputWordField)),
+				constraints);
 
 		return panel;
 	}

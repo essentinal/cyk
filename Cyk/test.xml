@@ -5,6 +5,16 @@
     </left>
     <right>
       <symbol>A</symbol>
+      <symbol>B</symbol>
+    </right>
+  </rule>
+  <rule>
+    <left>
+      <symbol>S</symbol>
+    </left>
+    <right>
+      <symbol>S</symbol>
+      <symbol>S</symbol>
     </right>
   </rule>
   <rule>
@@ -12,7 +22,15 @@
       <symbol>A</symbol>
     </left>
     <right>
-      <symbol>a</symbol>
+      <symbol>0</symbol>
+    </right>
+  </rule>
+  <rule>
+    <left>
+      <symbol>B</symbol>
+    </left>
+    <right>
+      <symbol>1</symbol>
     </right>
   </rule>
 </grammar>

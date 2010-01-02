@@ -34,7 +34,7 @@ public class CNFTextField extends JTextField implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent ev) {
-		char c = ev.getKeyChar();
+		final char c = ev.getKeyChar();
 		int pos = getSelectionStart();
 
 		setSelectionStart(pos);
@@ -65,7 +65,6 @@ public class CNFTextField extends JTextField implements KeyListener {
 					}
 				});
 			} else if (pos > 1 && pos < 4) {
-				System.out.println(pos);
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						setCaretPosition(0);
@@ -115,9 +114,8 @@ public class CNFTextField extends JTextField implements KeyListener {
 				return;
 			}
 		case 3:
-			if (Character.isLetter(c)) {
+			if (Character.isLetterOrDigit(c)) {
 				setText(text.substring(0, 3) + c);
-
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						setCaretPosition(4);
