@@ -14,6 +14,8 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
+import cyk.controller.ActionCancelDialog;
+
 @SuppressWarnings("serial")
 public class DialogRandomWord extends JDialog {
 	private static int lastLength = 5;
@@ -52,7 +54,7 @@ public class DialogRandomWord extends JDialog {
 		constraints.gridx++;
 		constraints.anchor = GridBagConstraints.EAST;
 
-		add(new JButton(new ActionCancel()), constraints);
+		add(new JButton(new ActionCancelDialog(this)), constraints);
 
 		pack();
 		setLocationRelativeTo(null);
@@ -81,18 +83,6 @@ public class DialogRandomWord extends JDialog {
 			}
 
 			textField.setText(new String(word));
-			dispose();
-		}
-	}
-
-	private class ActionCancel extends AbstractAction {
-		public ActionCancel() {
-			super("Abbrechen");
-			putValue(AbstractAction.SHORT_DESCRIPTION, "Abbrechen");
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
 			dispose();
 		}
 	}

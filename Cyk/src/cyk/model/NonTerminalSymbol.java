@@ -6,8 +6,8 @@ package cyk.model;
  * @author Stephan
  * 
  */
-public class NotTerminalSymbol extends Symbol {
-	public NotTerminalSymbol(char character) {
+public class NonTerminalSymbol extends Symbol {
+	public NonTerminalSymbol(char character) {
 		super(character);
 
 	}
