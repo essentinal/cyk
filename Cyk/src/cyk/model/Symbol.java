@@ -2,6 +2,8 @@ package cyk.model;
 
 import org.jdom.Element;
 
+import cyk.model.exceptions.GrammarParseException;
+
 /**
  * Oberklasse für Symbole. Ein Symbol ist abstrakt gesehen einfach nur ein
  * Character.

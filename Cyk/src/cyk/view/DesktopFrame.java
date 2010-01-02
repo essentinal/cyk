@@ -36,8 +36,6 @@ import cyk.model.interfaces.ICYKModel;
 
 @SuppressWarnings("serial")
 public class DesktopFrame extends JInternalFrame implements CYKModelListener {
-
-	// private JDesktopPane desktop;
 	private RuleTableModel tableModel;
 	private JTextField inputWordField;
 	private JTable table;

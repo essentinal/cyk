@@ -1,4 +1,4 @@
-package cyk.model;
+package cyk.model.exceptions;
 
 import org.jdom.Element;
 

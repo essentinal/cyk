@@ -2,7 +2,7 @@ package cyk.model.interfaces;
 
 import org.jdom.Element;
 
-import cyk.model.GrammarParseException;
+import cyk.model.exceptions.GrammarParseException;
 
 public interface IXML {
 	public Element toXml();

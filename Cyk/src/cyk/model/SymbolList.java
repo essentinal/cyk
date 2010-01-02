@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import org.jdom.Element;
 
+import cyk.model.exceptions.GrammarParseException;
 import cyk.model.interfaces.IXML;
 
 /**

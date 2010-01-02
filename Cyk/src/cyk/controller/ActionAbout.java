@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import cyk.view.CYKAboutDialog;
+import cyk.view.DialogAbout;
 
 @SuppressWarnings("serial")
 public class ActionAbout extends AbstractAction {
@@ -15,6 +15,6 @@ public class ActionAbout extends AbstractAction {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		new CYKAboutDialog();
+		new DialogAbout();
 	}
 }

@@ -30,7 +30,7 @@ import cyk.controller.ActionExit;
 import cyk.controller.ActionNew;
 import cyk.controller.ActionTileViews;
 import cyk.model.CYKModel;
-import cyk.model.GrammarParseException;
+import cyk.model.exceptions.GrammarParseException;
 import cyk.model.interfaces.ICYKModel;
 
 @SuppressWarnings("serial")

@@ -8,6 +8,8 @@ import java.util.List;
 
 import org.jdom.JDOMException;
 
+import cyk.model.exceptions.GrammarParseException;
+import cyk.model.exceptions.RuleException;
 import cyk.model.interfaces.CYKModelListener;
 import cyk.model.interfaces.ICYKModel;
 import cyk.util.XMLUtil;

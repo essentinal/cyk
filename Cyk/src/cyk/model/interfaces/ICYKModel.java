@@ -7,8 +7,8 @@ import java.util.List;
 
 import org.jdom.JDOMException;
 
-import cyk.model.GrammarParseException;
 import cyk.model.Rule;
+import cyk.model.exceptions.GrammarParseException;
 
 public interface ICYKModel {
 	public void addCYKModelListener(CYKModelListener listener);

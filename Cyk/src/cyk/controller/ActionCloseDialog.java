@@ -6,13 +6,12 @@ import javax.swing.AbstractAction;
 import javax.swing.JDialog;
 
 @SuppressWarnings("serial")
-public class ActionCancelDialog extends AbstractAction {
+public class ActionCloseDialog extends AbstractAction {
 	private final JDialog dialog;
 
-	public ActionCancelDialog(JDialog dialog) {
-		super("Abbrechen");
-		putValue(AbstractAction.SHORT_DESCRIPTION,
-				"Aktion abbrechen und Fenster schlieﬂen");
+	public ActionCloseDialog(JDialog dialog) {
+		super("Schlieﬂen");
+		putValue(AbstractAction.SHORT_DESCRIPTION, "Dieses Fenster schlieﬂen");
 
 		this.dialog = dialog;
 	}

@@ -4,18 +4,18 @@ import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
 import java.lang.reflect.Method;
 
-import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
+import cyk.controller.ActionCloseDialog;
+
 @SuppressWarnings("serial")
-public class CYKAboutDialog extends JDialog {
+public class DialogAbout extends JDialog {
 	private static final String TEXT_ABOUT = "<html><h2>"
 			+ CYKMainFrame.APPLICATION_NAME
 			+ "</h2><h3>"
@@ -34,7 +34,7 @@ public class CYKAboutDialog extends JDialog {
 			+ "Diese muss das Nichtterminalzeichen S enthalten:<br/>"
 			+ "S->A<br/></html>";
 
-	public CYKAboutDialog() {
+	public DialogAbout() {
 		super((Frame) null, "‹ber dieses Programm", true);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setResizable(false);
@@ -53,7 +53,11 @@ public class CYKAboutDialog extends JDialog {
 		textLabel.addHyperlinkListener(new HyperlinkListener() {
 			public void hyperlinkUpdate(HyperlinkEvent hle) {
 				if (HyperlinkEvent.EventType.ACTIVATED.equals(hle.getEventType())) {
-					openBrowser(hle.getURL().toString());
+					try {
+						openBrowser(hle.getURL().toString());
+					} catch (Exception e) {
+						// ignorieren
+					}
 				}
 			}
 		});
@@ -63,7 +67,7 @@ public class CYKAboutDialog extends JDialog {
 		constraints.anchor = GridBagConstraints.CENTER;
 		constraints.insets = new Insets(15, 15, 15, 15);
 
-		add(new JButton(new ActionOK()), constraints);
+		add(new JButton(new ActionCloseDialog(this)), constraints);
 
 		pack();
 		setLocationRelativeTo(null);
@@ -72,7 +76,7 @@ public class CYKAboutDialog extends JDialog {
 
 	}
 
-	private void openBrowser(String url) {
+	private void openBrowser(String url) throws Exception {
 		String osName = System.getProperty("os.name");
 		try {
 			if (osName.startsWith("Mac OS")) {
@@ -83,7 +87,7 @@ public class CYKAboutDialog extends JDialog {
 			} else if (osName.startsWith("Windows")) {
 				Runtime.getRuntime()
 						.exec("rundll32 url.dll,FileProtocolHandler " + url);
-			} else { // assume Unix or Linux
+			} else {
 				String[] browsers = { "firefox", "opera", "konqueror", "epiphany",
 						"mozilla", "netscape" };
 				String browser = null;
@@ -99,18 +103,6 @@ public class CYKAboutDialog extends JDialog {
 					}
 			}
 		} catch (Exception e) {
-		}
-	}
-
-	private class ActionOK extends AbstractAction {
-		public ActionOK() {
-			super("OK");
-			putValue(AbstractAction.SHORT_DESCRIPTION, "Dialog schlieﬂen");
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			dispose();
 		}
 	}
 }
