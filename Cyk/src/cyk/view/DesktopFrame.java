@@ -6,21 +6,27 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
+import javax.swing.JFileChooser;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
-import cyk.controller.ActionTableAddRule;
 import cyk.controller.ActionCheckGrammar;
 import cyk.controller.ActionRandomWord;
+import cyk.controller.ActionTableAddRule;
 import cyk.controller.ActionTableRemoveRule;
 import cyk.model.CYKModel;
 import cyk.model.Rule;
@@ -40,13 +46,23 @@ public class DesktopFrame extends JInternalFrame implements CYKModelListener {
 
 	public DesktopFrame(String title, JDesktopPane desktop) {
 		super(title, true, true, true, true);
-		// this.desktop = desktop;
-		setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
-
-		setLayout(new GridBagLayout());
 
 		model = new CYKModel();
 
+		init(desktop);
+	}
+
+	public DesktopFrame(String title, JDesktopPane desktop, CYKModel model) {
+		super(title, true, true, true, true);
+
+		this.model = model;
+
+		init(desktop);
+	}
+
+	private void init(JDesktopPane desktop) {
+		setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
+		setLayout(new GridBagLayout());
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.insets = new Insets(5, 5, 5, 5);
 		constraints.gridx = 0;
@@ -62,17 +78,68 @@ public class DesktopFrame extends JInternalFrame implements CYKModelListener {
 		add(buildRightPanel(), constraints);
 
 		int numframes = (desktop.getAllFrames().length) % 5;
-		setLocation(numframes * 5, numframes * 5);
-		setSize(desktop.getWidth() - 20, desktop.getHeight() - 20);
+		setLocation(numframes * 15, numframes * 15);
+		setSize(700, 500);
 		setVisible(true);
-
-	}
-
-	public void load() {
-
 	}
 
 	public void save() {
+		boolean ok = false;
+
+		JFileChooser jfc = new JFileChooser(CYKMainFrame.lastFileChooserDirectory);
+		jfc
+				.setFileFilter(new FileNameExtensionFilter("XML Grammatik-Datei", "xml"));
+
+		while (!ok) {
+			int n = jfc.showSaveDialog(null);
+			if (n == JFileChooser.CANCEL_OPTION) {
+				return;
+			}
+
+			File file = jfc.getSelectedFile();
+			if (file != null) {
+				if (!file.getName().endsWith(".xml")) {
+					file = new File(file.getAbsolutePath() + ".xml");
+				}
+
+				if (file.exists()) {
+					n = JOptionPane.showConfirmDialog(this, "Die Datei " + file.getName()
+							+ " existiert schon. Soll die Datei überschrieben werden?.",
+							"Datei existiert schon", JOptionPane.YES_NO_CANCEL_OPTION);
+					if (n == JOptionPane.CANCEL_OPTION) {
+						return;
+					} else if (n == JOptionPane.YES_OPTION) {
+						ok = true;
+					}
+				} else {
+					ok = true;
+				}
+
+				if (ok) {
+					try {
+						CYKMainFrame.lastFileChooserDirectory = file.getParentFile();
+
+						model.save(file);
+						setTitle(file.toString());
+						JOptionPane.showMessageDialog(this,
+								"Die Grammatik wurde in der Datei " + file.getName()
+										+ " gespeichert.", "Datei gespeichert",
+								JOptionPane.INFORMATION_MESSAGE);
+					} catch (FileNotFoundException e) {
+						// e.printStackTrace();
+						JOptionPane
+								.showMessageDialog(this, "Die Datei " + file.getName()
+										+ " wurde nicht gefunden.", "Fehler",
+										JOptionPane.ERROR_MESSAGE);
+					} catch (IOException e) {
+						// e.printStackTrace();
+						JOptionPane.showMessageDialog(this,
+								"Ausgabefehler beim Schreiben der Datei " + file.getName()
+										+ ".", "Fehler", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}
+		}
 
 	}
 
@@ -130,9 +197,8 @@ public class DesktopFrame extends JInternalFrame implements CYKModelListener {
 			}
 		});
 
-		panel.add(
-				new JButton(actionRemoveRule = new ActionTableRemoveRule(model, table)),
-				constraints);
+		panel.add(new JButton(actionRemoveRule = new ActionTableRemoveRule(model,
+				table)), constraints);
 
 		constraints.gridx = 0;
 		constraints.gridy++;

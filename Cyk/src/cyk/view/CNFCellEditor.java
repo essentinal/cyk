@@ -9,6 +9,7 @@ import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 
 import cyk.model.Rule;
+import cyk.model.RuleException;
 
 @SuppressWarnings("serial")
 public class CNFCellEditor extends AbstractCellEditor implements
@@ -39,7 +40,20 @@ public class CNFCellEditor extends AbstractCellEditor implements
 
 	public Object getCellEditorValue() {
 		System.out.println("Editor value: " + textField.getText());
-		return new Rule(textField.getText());
+		String text = textField.getText();
+		Rule rule;
+		try {
+			rule = new Rule(text);
+		} catch (RuleException e) {
+			text = textField.getOriginalText();
+			try {
+				rule = new Rule(text);
+			} catch (RuleException e1) {
+				e1.printStackTrace();
+				return null;
+			}
+		}
+		return rule;
 	}
 
 	public void requestFocus() {

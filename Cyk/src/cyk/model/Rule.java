@@ -16,7 +16,11 @@ public class Rule implements IXML {
 	private NonTerminalSymbol left;
 	private SymbolList right;
 
-	public Rule(String s) {
+	public Rule(String s) throws RuleException {
+		if (!s.matches("[A-Z]->[A-Z]+") && !s.matches("[A-Z]->[a-z]")) {
+			throw new RuleException(s + " is no valid rule!");
+		}
+
 		left = new NonTerminalSymbol(s.charAt(0));
 
 		// Rechte Seite kann max 2 stellen haben
@@ -38,7 +42,7 @@ public class Rule implements IXML {
 		}
 	}
 
-	public Rule(Element e) {
+	public Rule(Element e) throws GrammarParseException {
 		parse(e);
 	}
 
@@ -63,7 +67,7 @@ public class Rule implements IXML {
 		return left.toString() + "->" + right.toString();
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws RuleException {
 		Rule r = new Rule("A->b");
 
 		System.out.println(r);
@@ -72,9 +76,15 @@ public class Rule implements IXML {
 	}
 
 	@Override
-	public void parse(Element element) {
-		left = (NonTerminalSymbol) Symbol.parse(element);
+	public void parse(Element element) throws GrammarParseException {
+		try {
+			left = (NonTerminalSymbol) Symbol.parse(element.getChild("left")
+					.getChild("symbol"));
 
+			right = new SymbolList(element.getChild("right"));
+		} catch (NullPointerException e) {
+			throw new GrammarParseException(element);
+		}
 	}
 
 	@Override

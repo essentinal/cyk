@@ -11,7 +11,7 @@ public class ActionCloseFrame extends AbstractAction {
 	private final CYKMainFrame frame;
 
 	public ActionCloseFrame(CYKMainFrame frame) {
-		super("Schlieﬂen");
+		super("Grammatik schlieﬂen");
 		this.frame = frame;
 	}
 

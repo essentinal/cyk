@@ -27,15 +27,25 @@ public class CYKModel implements ICYKModel {
 
 	public CYKModel() {
 		// TODO: FOR DEBUGGING ONLY
-		grammar.add(new Rule("S->A"));
-		grammar.add(new Rule("A->a"));
+		try {
+			grammar.add(new Rule("S->A"));
+			grammar.add(new Rule("A->a"));
+		} catch (RuleException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	@Override
 	public void addRule() {
-		grammar.add(0, new Rule("S->S"));
-		fireModelChanged();
-		fireRuleAdded();
+		try {
+			grammar.add(0, new Rule("S->S"));
+			fireModelChanged();
+			fireRuleAdded();
+		} catch (RuleException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -75,7 +85,8 @@ public class CYKModel implements ICYKModel {
 	}
 
 	@Override
-	public void load(File file) throws JDOMException, IOException {
+	public void load(File file) throws JDOMException, IOException,
+			GrammarParseException {
 		this.grammar.parse(XMLUtil.read(file));
 
 		fireModelChanged();

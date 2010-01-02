@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.jdom.JDOMException;
 
+import cyk.model.GrammarParseException;
 import cyk.model.Rule;
 
 public interface ICYKModel {
@@ -14,7 +15,8 @@ public interface ICYKModel {
 
 	public void save(File file) throws FileNotFoundException, IOException;
 
-	public void load(File file) throws JDOMException, IOException;
+	public void load(File file) throws JDOMException, IOException,
+			GrammarParseException;
 
 	public boolean parseWord(String word);
 

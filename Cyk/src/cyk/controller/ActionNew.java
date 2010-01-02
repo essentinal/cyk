@@ -11,7 +11,7 @@ public class ActionNew extends AbstractAction {
 	private final CYKMainFrame frame;
 
 	public ActionNew(CYKMainFrame frame) {
-		super("Neu");
+		super("Neue Grammatik");
 		this.frame = frame;
 	}
 

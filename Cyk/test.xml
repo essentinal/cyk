@@ -1,0 +1,18 @@
+<grammar>
+  <rule>
+    <left>
+      <symbol>S</symbol>
+    </left>
+    <right>
+      <symbol>A</symbol>
+    </right>
+  </rule>
+  <rule>
+    <left>
+      <symbol>A</symbol>
+    </left>
+    <right>
+      <symbol>a</symbol>
+    </right>
+  </rule>
+</grammar>
