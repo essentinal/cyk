@@ -2,6 +2,8 @@ package cyk.model;
 
 import org.jdom.Element;
 
+import cyk.model.exceptions.GrammarParseException;
+import cyk.model.exceptions.RuleException;
 import cyk.model.interfaces.IXML;
 
 /**

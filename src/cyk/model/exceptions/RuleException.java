@@ -1,4 +1,4 @@
-package cyk.model;
+package cyk.model.exceptions;
 
 @SuppressWarnings("serial")
 public class RuleException extends Exception {

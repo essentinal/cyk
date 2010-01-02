@@ -7,6 +7,8 @@ import java.util.Iterator;
 
 import org.jdom.Element;
 
+import cyk.model.exceptions.GrammarParseException;
+import cyk.model.exceptions.RuleException;
 import cyk.model.interfaces.IXML;
 import cyk.util.XMLUtil;
 

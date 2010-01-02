@@ -9,7 +9,7 @@ import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 
 import cyk.model.Rule;
-import cyk.model.RuleException;
+import cyk.model.exceptions.RuleException;
 
 @SuppressWarnings("serial")
 public class CNFCellEditor extends AbstractCellEditor implements
