@@ -21,8 +21,6 @@ import cyk.util.XMLUtil;
  * 
  */
 public class CYKModel implements ICYKModel {
-	public static final boolean USE_SIMPLE_FORMAT = true;
-
 	private final ArrayList<CYKModelListener> listeners = new ArrayList<CYKModelListener>();
 
 	private final Grammar grammar = new Grammar();
@@ -42,7 +40,7 @@ public class CYKModel implements ICYKModel {
 	@Override
 	public void addRule() {
 		try {
-			grammar.add(0, new Rule("S->S"));
+			grammar.add(0, new Rule("S->A"));
 			fireModelChanged();
 			fireRuleAdded();
 		} catch (RuleException e) {
@@ -118,4 +116,9 @@ public class CYKModel implements ICYKModel {
 			l.ruleAdded();
 		}
 	}
+
+	public String getRandomWord(int length) {
+		return new RandomWord(grammar, length).derive("S");
+	}
+
 }

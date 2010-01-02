@@ -49,7 +49,6 @@ public class CNFCellEditor extends AbstractCellEditor implements
 			try {
 				rule = new Rule(text);
 			} catch (RuleException e1) {
-				e1.printStackTrace();
 				return null;
 			}
 		}

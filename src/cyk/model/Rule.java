@@ -42,6 +42,10 @@ public class Rule implements IXML {
 			right.add(sym);
 
 		}
+
+		if (right.size() == 1 && left.equals(right.get(0))) {
+			throw new RuleException(s + " is an unnecessary rule!");
+		}
 	}
 
 	public Rule(Element e) throws GrammarParseException {
@@ -84,10 +88,6 @@ public class Rule implements IXML {
 	@Override
 	public Element toXml() {
 		Element rule = new Element("rule");
-
-		if (!CYKModel.USE_SIMPLE_FORMAT) {
-			rule.setAttribute("startrule", String.valueOf(isStartRule()));
-		}
 
 		Element leftE = new Element("left");
 		rule.addContent(leftE);
