@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
-import cyk.model.exceptions.GrammarException;
+import cyk.model.exceptions.GrammarIncompleteException;
+import cyk.model.exceptions.GrammarNoDeriveException;
+import cyk.model.exceptions.GrammarNoStartruleException;
 import cyk.util.RandomIterator;
 
 public class RandomWord {
@@ -45,8 +47,14 @@ public class RandomWord {
 	 *          String, der abzuleiten ist.
 	 * @return Abgeleiteter String
 	 */
-	public String derive(String s) throws GrammarException {
-		replaceNonTerminals(s, "S", 0);
+	public String derive(String s) throws GrammarIncompleteException,
+			GrammarNoDeriveException, GrammarNoStartruleException {
+		if (!rules.containsKey(s.charAt(0))) {
+			throw new GrammarNoStartruleException(
+					"The start rule is missing for this grammar");
+		}
+
+		replaceNonTerminals(s, s, 0);
 
 		List<String> strings = null;
 		int len = length;
@@ -55,7 +63,7 @@ public class RandomWord {
 			strings = derivations.get(len--);
 
 			if (len < 0) {
-				return "";
+				throw new GrammarNoDeriveException("Grammar can not be derived");
 			}
 		}
 
@@ -80,7 +88,7 @@ public class RandomWord {
 	 * @throws StackOverflowError
 	 */
 	private void replaceNonTerminals(String s, String temp, int depth)
-			throws GrammarException {
+			throws GrammarIncompleteException {
 		if (debug) {
 			System.out.println(s);
 			System.out.println(temp);
@@ -126,7 +134,8 @@ public class RandomWord {
 				replaceNonTerminals(s2, temp + "->" + s2, depth + 1);
 			}
 		} catch (NullPointerException e) {
-			throw new GrammarException("Nonterminalsymbol " + c + " has no rule");
+			throw new GrammarIncompleteException("Nonterminalsymbol " + c
+					+ " has no rule");
 		}
 	}
 }
