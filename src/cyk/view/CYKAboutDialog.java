@@ -25,13 +25,13 @@ public class CYKAboutDialog extends JDialog {
 			+ "Der CYK-Algorithmus wurde in den 1960er Jahren zur Erkennung einer Grammatik in <a href='http://de.wikipedia.org/wiki/Chomsky-Normalform'>Chomsky-Normalform</a> entwickelt.<br/><br/>"
 			+ "<b>Eine Grammatik in Chomsky-Normalform (CNF) kann aus folgenden Regeln bestehen.</b><br/><br/>"
 			+ "Die linke Seite einer Regel muss immer aus genau einem Nichtterminalzeichen bestehen.<br/>"
-			+ "Regeln mit einem oder zwei Nichtterminalzeichen auf der rechten Seite:<br/>"
+			+ "Die rechte Seite kann aus einem oder zwei Nichtterminalzeichen bestehen:<br/>"
 			+ "A->B<br/>"
 			+ "A->BC<br/><br/>"
-			+ "Regeln mit einem Terminalzeichen auf der rechten Seite:<br/>"
+			+ "Die rechte Seite kann aus genau einem Terminalzeichen bestehen:<br/>"
 			+ "A->a<br/><br/>"
 			+ "Zur Vollständigkeit muss immer mindestens eine Startregel existieren.<br/>"
-			+ "Diese wird durch das Nichtterminalzeichen S gekenntzeichnet:<br/>"
+			+ "Diese muss das Nichtterminalzeichen S enthalten:<br/>"
 			+ "S->A<br/></html>";
 
 	public CYKAboutDialog() {
@@ -48,6 +48,7 @@ public class CYKAboutDialog extends JDialog {
 
 		JEditorPane textLabel = new JEditorPane("text/html", TEXT_ABOUT);
 		textLabel.setEditable(false);
+		textLabel.setFocusable(false);
 		textLabel.setOpaque(false);
 		textLabel.addHyperlinkListener(new HyperlinkListener() {
 			public void hyperlinkUpdate(HyperlinkEvent hle) {

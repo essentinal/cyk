@@ -3,6 +3,7 @@ package cyk.controller;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
+import javax.swing.JOptionPane;
 
 import cyk.model.interfaces.ICYKModel;
 
@@ -20,7 +21,12 @@ public class ActionCheckGrammar extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		model.checkGrammar();
+		boolean b = model.checkGrammar();
+
+		JOptionPane.showMessageDialog(null, "Diese ist " + (b ? "eine " : "keine ")
+				+ "gültige Grammatik in Chomsky-Normalform.", "Grammatik überprüft",
+				b ? JOptionPane.INFORMATION_MESSAGE : JOptionPane.ERROR_MESSAGE);
+
 		System.out.println("check grammar");
 	}
 }

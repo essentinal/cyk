@@ -31,6 +31,7 @@ import cyk.controller.ActionNew;
 import cyk.controller.ActionTileViews;
 import cyk.model.CYKModel;
 import cyk.model.GrammarParseException;
+import cyk.model.interfaces.ICYKModel;
 
 @SuppressWarnings("serial")
 public class CYKMainFrame extends JFrame implements InternalFrameListener {
@@ -40,7 +41,7 @@ public class CYKMainFrame extends JFrame implements InternalFrameListener {
 	public static File lastFileChooserDirectory = new File(".");
 	private JDesktopPane desktop;
 
-	private Action actionSave, actionCloseFrame;
+	private Action actionSave, actionCloseFrame, actionCascade, actionTile;
 
 	public CYKMainFrame() {
 		super(APPLICATION_NAME);
@@ -77,13 +78,11 @@ public class CYKMainFrame extends JFrame implements InternalFrameListener {
 		menuItem.add(new ActionOpen());
 
 		actionSave = new ActionSave();
-		actionSave.setEnabled(false);
 		menuItem.add(actionSave);
 
 		menuItem.addSeparator();
 
 		actionCloseFrame = new ActionCloseFrame(this);
-		actionCloseFrame.setEnabled(false);
 		menuItem.add(actionCloseFrame);
 
 		menuItem.addSeparator();
@@ -95,8 +94,8 @@ public class CYKMainFrame extends JFrame implements InternalFrameListener {
 		menuItem = new JMenu("Fenster");
 		menuItem.setToolTipText("Fenstermenü");
 
-		menuItem.add(new ActionCascadeViews(desktop));
-		menuItem.add(new ActionTileViews(desktop));
+		menuItem.add(actionCascade = new ActionCascadeViews(desktop));
+		menuItem.add(actionTile = new ActionTileViews(desktop));
 
 		menu.add(menuItem);
 
@@ -106,6 +105,8 @@ public class CYKMainFrame extends JFrame implements InternalFrameListener {
 		menuItem.add(new ActionAbout());
 
 		menu.add(menuItem);
+
+		updateSaveAction();
 
 		return menu;
 	}
@@ -137,7 +138,7 @@ public class CYKMainFrame extends JFrame implements InternalFrameListener {
 		File file = jfc.getSelectedFile();
 		try {
 			CYKMainFrame.lastFileChooserDirectory = file.getParentFile();
-			CYKModel model = new CYKModel();
+			ICYKModel model = new CYKModel();
 			model.load(file);
 
 			DesktopFrame frame = new DesktopFrame(file.toString(), desktop, model);
@@ -213,6 +214,10 @@ public class CYKMainFrame extends JFrame implements InternalFrameListener {
 		actionCloseFrame.setEnabled(b);
 		actionSave.setEnabled(b);
 
+		b = desktop.getAllFrames().length > 1;
+
+		actionTile.setEnabled(b);
+		actionCascade.setEnabled(b);
 	}
 
 	@Override

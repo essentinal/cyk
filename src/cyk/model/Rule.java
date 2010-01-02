@@ -17,7 +17,7 @@ public class Rule implements IXML {
 	private SymbolList right;
 
 	public Rule(String s) throws RuleException {
-		if (!s.matches("[A-Z]->[A-Z]+") && !s.matches("[A-Z]->[a-z]")) {
+		if (!s.matches("[A-Z]->[A-Z]+") && !s.matches("[A-Z]->[a-z0-9]")) {
 			throw new RuleException(s + " is no valid rule!");
 		}
 
@@ -65,14 +65,6 @@ public class Rule implements IXML {
 	@Override
 	public String toString() {
 		return left.toString() + "->" + right.toString();
-	}
-
-	public static void main(String[] args) throws RuleException {
-		Rule r = new Rule("A->b");
-
-		System.out.println(r);
-		System.out.println("LEFT:  " + r.getLeft());
-		System.out.println("RIGHT:  " + r.getRight());
 	}
 
 	@Override
