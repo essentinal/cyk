@@ -8,7 +8,7 @@ import javax.swing.SwingUtilities;
 
 @SuppressWarnings("serial")
 public class CNFTextField extends JTextField implements KeyListener {
-	private String text = " ->";
+	private String text = " ->", originalText = "S->S";
 
 	public CNFTextField() {
 		setText(text);
@@ -19,7 +19,12 @@ public class CNFTextField extends JTextField implements KeyListener {
 	@Override
 	public void setText(String t) {
 		this.text = t;
+		this.originalText = t;
 		super.setText(t);
+	}
+
+	public String getOriginalText() {
+		return originalText;
 	}
 
 	@Override
@@ -31,6 +36,9 @@ public class CNFTextField extends JTextField implements KeyListener {
 	public void keyPressed(KeyEvent ev) {
 		char c = ev.getKeyChar();
 		int pos = getSelectionStart();
+
+		setSelectionStart(pos);
+		setSelectionEnd(pos);
 
 		// KEYS ALLOWED
 
@@ -130,7 +138,9 @@ public class CNFTextField extends JTextField implements KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent ev) {
-		if (Character.isLetterOrDigit(ev.getKeyChar())) {
+		if (Character.isLetterOrDigit(ev.getKeyChar())
+				|| ev.getKeyCode() == KeyEvent.VK_BACK_SPACE
+				|| ev.getKeyCode() == KeyEvent.VK_DELETE) {
 			ev.consume();
 		}
 	}
@@ -138,7 +148,9 @@ public class CNFTextField extends JTextField implements KeyListener {
 	@Override
 	public void keyTyped(KeyEvent ev) {
 		text = super.getText();
-		if (Character.isLetterOrDigit(ev.getKeyChar())) {
+		if (Character.isLetterOrDigit(ev.getKeyChar())
+				|| ev.getKeyCode() == KeyEvent.VK_BACK_SPACE
+				|| ev.getKeyCode() == KeyEvent.VK_DELETE) {
 			ev.consume();
 		}
 	}

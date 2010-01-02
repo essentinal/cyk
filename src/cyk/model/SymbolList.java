@@ -1,6 +1,7 @@
 package cyk.model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.jdom.Element;
 
@@ -17,7 +18,7 @@ public class SymbolList extends ArrayList<Symbol> implements IXML {
 	public SymbolList() {
 	}
 
-	public SymbolList(Element element) {
+	public SymbolList(Element element) throws GrammarParseException {
 		parse(element);
 	}
 
@@ -35,8 +36,12 @@ public class SymbolList extends ArrayList<Symbol> implements IXML {
 	}
 
 	@Override
-	public void parse(Element element) {
-
+	public void parse(Element element) throws GrammarParseException {
+		Iterator<?> it = element.getChildren("symbol").iterator();
+		while (it.hasNext()) {
+			Element symbolE = (Element) it.next();
+			add(Symbol.parse(symbolE));
+		}
 	}
 
 	@Override

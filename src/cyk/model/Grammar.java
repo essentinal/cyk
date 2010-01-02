@@ -51,8 +51,12 @@ public class Grammar extends ArrayList<Rule> implements IXML {
 	}
 
 	@Override
-	public void parse(Element element) {
+	public void parse(Element element) throws GrammarParseException {
 		clear();
+
+		if (!element.getName().equals("grammar")) {
+			throw new GrammarParseException(element);
+		}
 
 		Iterator<?> it = element.getChildren("rule").iterator();
 		while (it.hasNext()) {
@@ -73,7 +77,7 @@ public class Grammar extends ArrayList<Rule> implements IXML {
 		return root;
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws RuleException {
 		Grammar g = new Grammar();
 		g.add(new Rule("S->A"));
 		g.add(new Rule("A->AB"));

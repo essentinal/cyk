@@ -32,4 +32,8 @@ public class XMLUtil {
 	public static Element read(File f) throws JDOMException, IOException {
 		return builder.build(f).getRootElement();
 	}
+
+	public static String toString(Element e) {
+		return outputter.outputString(e);
+	}
 }

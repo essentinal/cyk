@@ -27,15 +27,19 @@ public abstract class Symbol {
 
 	public abstract boolean isTerminal();
 
-	public static Symbol parse(Element element) {
+	public static Symbol parse(Element element) throws GrammarParseException {
+		if (!element.getName().equals("symbol") || element.getText() == null
+				|| element.getText().isEmpty()) {
+			throw new GrammarParseException(element);
+		}
+
 		char c = element.getText().charAt(0);
 
-		if (element.getAttributeValue("terminal").equals("true")) {
+		if (Character.isLowerCase(c)) {
 			return new TerminalSymbol(c);
 		} else {
 			return new NonTerminalSymbol(c);
 		}
-
 	}
 
 	public Element toXml() {
