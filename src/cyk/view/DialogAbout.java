@@ -67,7 +67,9 @@ public class DialogAbout extends JDialog {
 		constraints.anchor = GridBagConstraints.CENTER;
 		constraints.insets = new Insets(15, 15, 15, 15);
 
-		add(new JButton(new ActionCloseDialog(this)), constraints);
+		JButton b = new JButton(new ActionCloseDialog(this));
+		getRootPane().setDefaultButton(b);
+		add(b, constraints);
 
 		pack();
 		setLocationRelativeTo(null);

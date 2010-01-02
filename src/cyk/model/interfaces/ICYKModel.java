@@ -8,6 +8,7 @@ import java.util.List;
 import org.jdom.JDOMException;
 
 import cyk.model.Rule;
+import cyk.model.exceptions.GrammarException;
 import cyk.model.exceptions.GrammarParseException;
 
 public interface ICYKModel {
@@ -20,7 +21,7 @@ public interface ICYKModel {
 
 	public boolean parseWord(String word);
 
-	public String getRandomWord(int length);
+	public String getRandomWord(int length) throws GrammarException;
 
 	public boolean checkGrammar();
 

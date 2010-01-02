@@ -1,6 +1,5 @@
 package cyk.util;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -14,18 +13,48 @@ import java.util.Random;
  *          Die Klasse, welche zu Iterieren ist.
  */
 public class RandomIterator<T> {
-	private Random random = new Random();
+	private final Random rand = new Random();
 	private List<T> list;
 
-	public RandomIterator(List<T> list2) {
-		this.list = new ArrayList<T>(list2);
+	private final boolean[] served;
+	private int servedCount = 0;
+
+	private final int LIST_SIZE;
+
+	private int lower;
+	private int upper;
+
+	public RandomIterator(List<T> list) {
+		this.list = list;
+
+		LIST_SIZE = list.size();
+		served = new boolean[LIST_SIZE];
+		lower = 0;
+		upper = LIST_SIZE - 1;
 	}
 
 	public boolean hasNext() {
-		return list.size() > 0;
+		return servedCount < LIST_SIZE;
 	}
 
+	private int index, range;
+
 	public T next() {
-		return list.remove(random.nextInt(list.size()));
+		range = upper - lower + 1;
+
+		do {
+			index = lower + rand.nextInt(range);
+		} while (served[index]);
+
+		if (index == lower) {
+			lower++;
+		} else if (index == upper) {
+			upper = upper - 1;
+		}
+
+		served[index] = true;
+		servedCount++;
+
+		return list.get(index);
 	}
 }
