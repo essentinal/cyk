@@ -10,11 +10,13 @@ import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
 import cyk.controller.ActionCancelDialog;
+import cyk.model.exceptions.GrammarException;
 import cyk.model.interfaces.ICYKModel;
 
 @SuppressWarnings("serial")
@@ -52,7 +54,10 @@ public class DialogRandomWord extends JDialog {
 		constraints.gridy++;
 		constraints.anchor = GridBagConstraints.WEST;
 
-		add(new JButton(new ActionOK()), constraints);
+		JButton b = new JButton(new ActionOK());
+
+		add(b, constraints);
+		getRootPane().setDefaultButton(b);
 
 		constraints.gridx++;
 		constraints.anchor = GridBagConstraints.EAST;
@@ -77,9 +82,15 @@ public class DialogRandomWord extends JDialog {
 			int length = (Integer) numberSpinner.getValue();
 			lastLength = length;
 
-			String word = model.getRandomWord(length);
+			try {
+				String word = model.getRandomWord(length);
 
-			textField.setText(new String(word));
+				textField.setText(new String(word));
+			} catch (GrammarException ex) {
+				JOptionPane.showMessageDialog(null,
+						"Fehler beim Erzeugen des Worts. Die Grammatik ist unvollständig.",
+						"Grammatikfehler", JOptionPane.ERROR_MESSAGE);
+			}
 			dispose();
 		}
 	}

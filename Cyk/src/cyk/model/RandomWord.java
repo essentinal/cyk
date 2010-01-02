@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import cyk.model.exceptions.GrammarException;
 import cyk.util.RandomIterator;
 
 public class RandomWord {
@@ -44,7 +45,7 @@ public class RandomWord {
 	 *          String, der abzuleiten ist.
 	 * @return Abgeleiteter String
 	 */
-	public String derive(String s) {
+	public String derive(String s) throws GrammarException {
 		replaceNonTerminals(s, "S", 0);
 
 		List<String> strings = null;
@@ -78,7 +79,8 @@ public class RandomWord {
 	 *          Aktuelle Ableitungstiefe
 	 * @throws StackOverflowError
 	 */
-	private void replaceNonTerminals(String s, String temp, int depth) {
+	private void replaceNonTerminals(String s, String temp, int depth)
+			throws GrammarException {
 		if (debug) {
 			System.out.println(s);
 			System.out.println(temp);
@@ -115,11 +117,16 @@ public class RandomWord {
 
 		List<SymbolList> ll = rules.get(c);
 
-		// iteriere zufällig durch die Liste der Regeln
-		RandomIterator<SymbolList> rl = new RandomIterator<SymbolList>(ll);
-		while (rl.hasNext()) {
-			String s2 = s.replaceFirst(String.valueOf(c), rl.next().toString());
-			replaceNonTerminals(s2, temp + "->" + s2, depth + 1);
+		try {
+
+			// iteriere zufällig durch die Liste der Regeln
+			RandomIterator<SymbolList> rl = new RandomIterator<SymbolList>(ll);
+			while (rl.hasNext()) {
+				String s2 = s.replaceFirst(String.valueOf(c), rl.next().toString());
+				replaceNonTerminals(s2, temp + "->" + s2, depth + 1);
+			}
+		} catch (NullPointerException e) {
+			throw new GrammarException("Nonterminalsymbol " + c + " has no rule");
 		}
 	}
 }

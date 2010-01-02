@@ -186,6 +186,10 @@ public class DesktopFrame extends JInternalFrame implements CYKModelListener {
 				} else if (e.getKeyCode() == KeyEvent.VK_DELETE) {
 					actionRemoveRule.actionPerformed(null);
 					e.consume();
+				} else if (e.getKeyCode() == KeyEvent.VK_ENTER
+						&& table.getSelectedRow() == table.getRowCount() - 1) {
+					model.addRule();
+					e.consume();
 				}
 			}
 
