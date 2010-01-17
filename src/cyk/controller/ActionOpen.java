@@ -9,19 +9,19 @@ import javax.swing.KeyStroke;
 import cyk.view.CYKMainFrame;
 
 @SuppressWarnings("serial")
-public class ActionNew extends AbstractAction {
+public class ActionOpen extends AbstractAction {
 	private final CYKMainFrame frame;
 
-	public ActionNew(CYKMainFrame frame) {
-		super("Neue Grammatik");
-		putValue(SHORT_DESCRIPTION, "Neue Grammatik erstellen");
-		putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_N,
+	public ActionOpen(CYKMainFrame frame) {
+		super("Öffnen...");
+		putValue(SHORT_DESCRIPTION, "Grammatikdatei öffnen");
+		putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_O,
 				KeyEvent.CTRL_DOWN_MASK));
 		this.frame = frame;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		frame.newDesktopFrame();
+		frame.load();
 	}
 }

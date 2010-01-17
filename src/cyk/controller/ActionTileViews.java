@@ -2,11 +2,13 @@ package cyk.controller;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
 
 import javax.swing.AbstractAction;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
+import javax.swing.KeyStroke;
 
 @SuppressWarnings("serial")
 public class ActionTileViews extends AbstractAction {
@@ -16,7 +18,8 @@ public class ActionTileViews extends AbstractAction {
 	public ActionTileViews(JDesktopPane desktop) {
 		super("Gekachelt anordnen");
 		putValue(SHORT_DESCRIPTION, "Alle Fenster gekachelt anordnen");
-
+		putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_G,
+				KeyEvent.CTRL_DOWN_MASK));
 		this.desktop = desktop;
 	}
 

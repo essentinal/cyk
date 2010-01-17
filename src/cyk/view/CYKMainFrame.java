@@ -1,13 +1,11 @@
 package cyk.view;
 
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
 import java.beans.PropertyVetoException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
@@ -28,6 +26,8 @@ import cyk.controller.ActionCascadeViews;
 import cyk.controller.ActionCloseFrame;
 import cyk.controller.ActionExit;
 import cyk.controller.ActionNew;
+import cyk.controller.ActionOpen;
+import cyk.controller.ActionSave;
 import cyk.controller.ActionTileViews;
 import cyk.model.CYKModel;
 import cyk.model.exceptions.GrammarParseException;
@@ -75,9 +75,9 @@ public class CYKMainFrame extends JFrame implements InternalFrameListener {
 
 		menuItem.addSeparator();
 
-		menuItem.add(new ActionOpen());
+		menuItem.add(new ActionOpen(this));
 
-		actionSave = new ActionSave();
+		actionSave = new ActionSave(desktop);
 		menuItem.add(actionSave);
 
 		menuItem.addSeparator();
@@ -176,31 +176,6 @@ public class CYKMainFrame extends JFrame implements InternalFrameListener {
 					"Lesefehler", JOptionPane.ERROR_MESSAGE);
 		}
 
-	}
-
-	private class ActionOpen extends AbstractAction {
-		public ActionOpen() {
-			super("Öffnen...");
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			load();
-		}
-	}
-
-	private class ActionSave extends AbstractAction {
-		public ActionSave() {
-			super("Speichern unter...");
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			DesktopFrame df = (DesktopFrame) desktop.getSelectedFrame();
-			if (df != null) {
-				df.save();
-			}
-		}
 	}
 
 	public void closeActiveFrame() {
