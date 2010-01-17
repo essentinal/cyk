@@ -117,10 +117,11 @@ public class CYKModel implements ICYKModel {
 							rightNonTerminal = rule.getRight().get(1).getCharacter();
 
 							tmpString = cykTable[k][j];
+							System.out.println(rule);
+							System.out.println(i + "," + j + ":" + tmpString);
 							for (y = 0; y < tmpString.length(); y++) {
 								if (leftNonTerminal == tmpString.charAt(y)) {
 									tmpString = cykTable[j + k][i - k];
-									System.out.println(i + "," + j + ":" + tmpString);
 									for (z = 0; z < tmpString.length(); z++) {
 										if (rightNonTerminal == tmpString.charAt(z)) {
 											cykTable[i][j] = cykTable[i][j]
