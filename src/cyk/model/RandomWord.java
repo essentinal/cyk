@@ -19,7 +19,7 @@ public class RandomWord {
 	private static final int MAX_WIDTH = 500;
 	private Random rand = new Random();
 
-	private boolean debug = false;
+	private boolean debug = true;
 
 	public RandomWord(Grammar grammar, int length) {
 		this.length = length;
