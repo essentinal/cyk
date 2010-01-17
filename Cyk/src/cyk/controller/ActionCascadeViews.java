@@ -2,11 +2,13 @@ package cyk.controller;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyVetoException;
 
 import javax.swing.AbstractAction;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
+import javax.swing.KeyStroke;
 
 @SuppressWarnings("serial")
 public class ActionCascadeViews extends AbstractAction {
@@ -15,7 +17,8 @@ public class ActionCascadeViews extends AbstractAction {
 	public ActionCascadeViews(JDesktopPane desktop) {
 		super("Kaskadiert anordnen");
 		putValue(SHORT_DESCRIPTION, "Alle Fenster kaskadierend anordnen");
-
+		putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_K,
+				KeyEvent.CTRL_DOWN_MASK));
 		this.desktop = desktop;
 	}
 

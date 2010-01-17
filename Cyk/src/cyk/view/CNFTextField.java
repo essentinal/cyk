@@ -8,7 +8,7 @@ import javax.swing.SwingUtilities;
 
 @SuppressWarnings("serial")
 public class CNFTextField extends JTextField implements KeyListener {
-	private String text = " ->", originalText = "S->S";
+	private String text = " ->", originalText = "S->AA";
 
 	public CNFTextField() {
 		setText(text);
