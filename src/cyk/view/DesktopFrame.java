@@ -22,6 +22,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import cyk.controller.ActionCheckGrammar;
@@ -39,7 +41,7 @@ public class DesktopFrame extends JInternalFrame implements CYKModelListener {
 	private RuleTableModel tableModel;
 	private JTextField inputWordField;
 	private JTable table;
-	private AbstractAction actionRemoveRule;
+	private AbstractAction actionRemoveRule, actionCheckWord;
 
 	private ICYKModel model;
 
@@ -238,6 +240,24 @@ public class DesktopFrame extends JInternalFrame implements CYKModelListener {
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 
 		inputWordField = new JTextField();
+		inputWordField.getDocument().addDocumentListener(new DocumentListener() {
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				updateAction();
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				updateAction();
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				updateAction();
+			}
+		});
+
 		panel.add(inputWordField, constraints);
 
 		constraints.gridx++;
@@ -254,10 +274,15 @@ public class DesktopFrame extends JInternalFrame implements CYKModelListener {
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 		constraints.gridwidth = 3;
 
-		panel.add(new JButton(new ActionCheckWord(model, inputWordField)),
-				constraints);
+		actionCheckWord = new ActionCheckWord(model, inputWordField);
+		actionCheckWord.setEnabled(false);
+		panel.add(new JButton(actionCheckWord), constraints);
 
 		return panel;
+	}
+
+	private void updateAction() {
+		actionCheckWord.setEnabled(!inputWordField.getText().isEmpty());
 	}
 
 	@Override

@@ -26,7 +26,5 @@ public class ActionCheckGrammar extends AbstractAction {
 		JOptionPane.showMessageDialog(null, "Diese ist " + (b ? "eine " : "keine ")
 				+ "gültige Grammatik in Chomsky-Normalform.", "Grammatik überprüft",
 				b ? JOptionPane.INFORMATION_MESSAGE : JOptionPane.ERROR_MESSAGE);
-
-		System.out.println("check grammar");
 	}
 }
