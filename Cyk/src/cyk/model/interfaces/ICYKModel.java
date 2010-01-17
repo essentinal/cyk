@@ -28,6 +28,8 @@ public interface ICYKModel {
 
 	public boolean checkGrammar();
 
+	public String[][] getTable();
+
 	public int getSize();
 
 	public void addRule();

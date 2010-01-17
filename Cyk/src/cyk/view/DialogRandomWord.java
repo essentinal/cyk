@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.UIManager;
 
 import cyk.controller.ActionCancelDialog;
 import cyk.model.exceptions.GrammarIncompleteException;
@@ -39,15 +40,32 @@ public class DialogRandomWord extends JDialog {
 		setLayout(new GridBagLayout());
 
 		GridBagConstraints constraints = new GridBagConstraints();
-		constraints.insets = new Insets(5, 5, 5, 5);
+
+		constraints.insets = new Insets(20, 20, 20, 20);
 		constraints.gridx = 0;
 		constraints.gridy = 0;
+		constraints.gridwidth = 1;
+		constraints.gridheight = 1;
+		constraints.weightx = 0.0;
+		constraints.weighty = 0.0;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		JLabel iconLabel = new JLabel();
+		add(iconLabel, constraints);
+
+		try {
+			iconLabel.setIcon(UIManager.getIcon("OptionPane.questionIcon"));
+		} catch (Exception e) {
+		}
+
+		constraints.insets = new Insets(5, 10, 10, 10);
+		constraints.gridx++;
 		constraints.anchor = GridBagConstraints.WEST;
 
-		add(new JLabel("Länge des Zufallsworts"), constraints);
+		add(new JLabel("Länge des Zufallsworts eingeben:"), constraints);
 
 		constraints.gridx++;
 		constraints.anchor = GridBagConstraints.EAST;
+		constraints.fill = GridBagConstraints.NONE;
 
 		numberSpinner = new JSpinner(new SpinnerNumberModel(lastLength, 0, 20, 1));
 		add(numberSpinner, constraints);
@@ -55,13 +73,14 @@ public class DialogRandomWord extends JDialog {
 		constraints.gridx = 0;
 		constraints.gridy++;
 		constraints.anchor = GridBagConstraints.WEST;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
 
 		JButton b = new JButton(new ActionOK());
 
 		add(b, constraints);
 		getRootPane().setDefaultButton(b);
 
-		constraints.gridx++;
+		constraints.gridx += 2;
 		constraints.anchor = GridBagConstraints.EAST;
 
 		add(new JButton(new ActionCancelDialog(this)), constraints);
