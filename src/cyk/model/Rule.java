@@ -19,7 +19,7 @@ public class Rule implements IXML {
 	private SymbolList right;
 
 	public Rule(String s) throws RuleException {
-		if (!s.matches("[A-Z]->[A-Z]+") && !s.matches("[A-Z]->[a-z0-9]")) {
+		if (!s.matches("[A-Z]->[A-Z][A-Z]") && !s.matches("[A-Z]->[a-z0-9]")) {
 			throw new RuleException(s + " is no valid rule!");
 		}
 
@@ -66,6 +66,14 @@ public class Rule implements IXML {
 
 	public boolean isTerminalRule() {
 		return right.get(0).isTerminal();
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Rule) {
+			return ((Rule) o).toString().equals(this.toString());
+		}
+		return false;
 	}
 
 	@Override

@@ -8,6 +8,7 @@ import javax.swing.AbstractCellEditor;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 
+import cyk.CYK;
 import cyk.model.Rule;
 import cyk.model.exceptions.RuleException;
 
@@ -39,7 +40,10 @@ public class CNFCellEditor extends AbstractCellEditor implements
 	}
 
 	public Object getCellEditorValue() {
-		System.out.println("Editor value: " + textField.getText());
+		if (CYK.DEBUG) {
+			System.out.println("CNFCellEditor.getCellEditorValue() - "
+					+ textField.getText());
+		}
 		String text = textField.getText();
 		Rule rule;
 		try {

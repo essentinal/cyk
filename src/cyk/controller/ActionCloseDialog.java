@@ -10,8 +10,8 @@ public class ActionCloseDialog extends AbstractAction {
 	private final JDialog dialog;
 
 	public ActionCloseDialog(JDialog dialog) {
-		super("Schlieﬂen");
-		putValue(AbstractAction.SHORT_DESCRIPTION, "Dieses Fenster schlieﬂen");
+		super("Schlie√üen");
+		putValue(AbstractAction.SHORT_DESCRIPTION, "Dieses Fenster schlie√üen");
 
 		this.dialog = dialog;
 	}

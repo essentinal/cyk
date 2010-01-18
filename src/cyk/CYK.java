@@ -8,6 +8,8 @@ import javax.swing.UIManager;
 import cyk.view.CYKMainFrame;
 
 public class CYK {
+	public static boolean DEBUG = false;
+
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override

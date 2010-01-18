@@ -14,7 +14,7 @@ import cyk.util.XMLUtil;
 
 /**
  * Dies ist eine Grammatik in Form einer Liste von Regeln. Werden Regeln
- * hinzugefügt, wird die Liste sortiert.
+ * hinzugefÃ¼gt, wird die Liste sortiert.
  * 
  * @author Stephan
  * 

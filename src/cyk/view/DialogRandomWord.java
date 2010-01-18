@@ -24,7 +24,7 @@ import cyk.model.interfaces.ICYKModel;
 
 @SuppressWarnings("serial")
 public class DialogRandomWord extends JDialog {
-	private static int lastLength = 5;
+	private static int lastLength = 6;
 
 	private JSpinner numberSpinner;
 	private final JTextField textField;
@@ -61,7 +61,7 @@ public class DialogRandomWord extends JDialog {
 		constraints.gridx++;
 		constraints.anchor = GridBagConstraints.WEST;
 
-		add(new JLabel("L‰nge des Zufallsworts eingeben:"), constraints);
+		add(new JLabel("L√§nge des Zufallsworts eingeben:"), constraints);
 
 		constraints.gridx++;
 		constraints.anchor = GridBagConstraints.EAST;
@@ -110,14 +110,14 @@ public class DialogRandomWord extends JDialog {
 			} catch (GrammarIncompleteException ex) {
 				textField.setText("");
 				JOptionPane.showMessageDialog(null,
-						"Fehler beim Erzeugen des Worts. Die Grammatik ist unvollst‰ndig.",
+						"Fehler beim Erzeugen des Worts. Die Grammatik ist unvollst√§ndig.",
 						"Grammatikfehler", JOptionPane.ERROR_MESSAGE);
 			} catch (GrammarNoDeriveException ex) {
 				textField.setText("");
 				JOptionPane
 						.showMessageDialog(
 								null,
-								"Fehler beim Erzeugen des Worts. Mit dieser Grammatik kann kein Wort der L‰nge "
+								"Fehler beim Erzeugen des Worts. Mit dieser Grammatik kann kein Wort der L√§nge "
 										+ length + " oder weniger erzeugt werden.",
 								"Grammatikfehler", JOptionPane.ERROR_MESSAGE);
 			} catch (GrammarNoStartruleException ex) {

@@ -16,12 +16,12 @@ public class ActionCheckWord extends AbstractAction {
 	private final JTextField textField;
 
 	public ActionCheckWord(ICYKModel model, JTextField textField) {
-		super("Wort überprüfen");
+		super("CYK-Algorithmus starten");
 		this.model = model;
 		this.textField = textField;
 
 		putValue(AbstractAction.SHORT_DESCRIPTION,
-				"Überprüfen, ob das Wort in der Sprache ist");
+				"ÃœberprÃ¼fen, ob das Wort in der Sprache ist");
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class ActionCheckWord extends AbstractAction {
 			dd.setVisible(true);
 
 		} catch (Exception ex) {
-			// wenn ein fehler auftritt, z.b. cyktable nicht verfügbar, messagedialog
+			// wenn ein fehler auftritt, z.b. cyktable nicht verfÃ¼gbar, messagedialog
 			// anzeigen
 			JOptionPane.showMessageDialog(null, text, "Erkennung abgeschlossen",
 					b ? JOptionPane.INFORMATION_MESSAGE : JOptionPane.ERROR_MESSAGE);

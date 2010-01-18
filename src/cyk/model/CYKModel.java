@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.jdom.JDOMException;
 
+import cyk.CYK;
 import cyk.model.exceptions.GrammarIncompleteException;
 import cyk.model.exceptions.GrammarNoDeriveException;
 import cyk.model.exceptions.GrammarNoStartruleException;
@@ -18,7 +19,7 @@ import cyk.model.interfaces.ICYKModel;
 import cyk.util.XMLUtil;
 
 /**
- * Dies ist das Model, die Kernfunktionalit‰t des Programms.
+ * Dies ist das Model, die Kernfunktionalit√§t des Programms.
  * 
  * @author Stephan
  * 
@@ -27,7 +28,7 @@ public class CYKModel implements ICYKModel {
 	private final ArrayList<CYKModelListener> listeners = new ArrayList<CYKModelListener>();
 	private final Grammar grammar = new Grammar();
 
-	// die tabelle f¸r den cyk-algorithmus
+	// die tabelle f√ºr den cyk-algorithmus
 	private String cykTable[][];
 
 	public CYKModel() {
@@ -46,7 +47,7 @@ public class CYKModel implements ICYKModel {
 	@Override
 	public void addRule() {
 		try {
-			grammar.add(0, new Rule("S->A"));
+			grammar.add(0, new Rule("S->AA"));
 			fireModelChanged();
 			fireRuleAdded();
 		} catch (RuleException e) {
@@ -56,9 +57,11 @@ public class CYKModel implements ICYKModel {
 
 	@Override
 	public void setRuleAt(Rule rule, int index) {
-		grammar.set(index, rule);
-		grammar.sort();
-		fireModelChanged();
+		if (!getRule(index).equals(rule)) {
+			grammar.set(index, rule);
+			grammar.sort();
+			fireModelChanged();
+		}
 	}
 
 	@Override
@@ -117,8 +120,10 @@ public class CYKModel implements ICYKModel {
 							rightNonTerminal = rule.getRight().get(1).getCharacter();
 
 							tmpString = cykTable[k][j];
-							System.out.println(rule);
-							System.out.println(i + "," + j + ":" + tmpString);
+							if (CYK.DEBUG) {
+								System.out.println(rule);
+								System.out.println(i + "," + j + ":" + tmpString);
+							}
 							for (y = 0; y < tmpString.length(); y++) {
 								if (leftNonTerminal == tmpString.charAt(y)) {
 									tmpString = cykTable[j + k][i - k];
@@ -137,25 +142,27 @@ public class CYKModel implements ICYKModel {
 		}
 
 		// nur zur ausgabe
-		System.out.println("\n---TABLE---\n");
-		for (i = 0; i < cykTable.length; i++) {
-			System.out.format("%-2d: ", i);
-			for (j = 0; j < cykTable.length - i; j++) {
-				String tmp = !cykTable[i][j].isEmpty() ? cykTable[i][j] : "X";
-				System.out.format("%-3s", tmp + " ");
+		if (CYK.DEBUG) {
+			System.out.println("\n---TABLE---\n");
+			for (i = 0; i < cykTable.length; i++) {
+				System.out.format("%-2d: ", i);
+				for (j = 0; j < cykTable.length - i; j++) {
+					String tmp = !cykTable[i][j].isEmpty() ? cykTable[i][j] : "X";
+					System.out.format("%-3s", tmp + " ");
+				}
+				System.out.println();
 			}
 			System.out.println();
+			System.out.println("-----------\n");
 		}
-		System.out.println();
-		System.out.println("-----------\n");
 
 		// is S in cykTable[n-1][0]?
 		tmpString = cykTable[n - 1][0];
-		System.out.println("zu testendes Feld in der Tabelle: " + tmpString);
-		for (i = 0; i < tmpString.length(); i++) {
-			if (tmpString.charAt(i) == 'S') {
-				return true;
-			}
+		if (CYK.DEBUG) {
+			System.out.println("zu testendes Feld in der Tabelle: " + tmpString);
+		}
+		if (tmpString.contains("S")) {
+			return true;
 		}
 
 		return false;
@@ -182,7 +189,7 @@ public class CYKModel implements ICYKModel {
 	@Override
 	public boolean checkGrammar() {
 
-		// ‹BERPR‹FUNG AUF VOLLSTƒNDIGKEIT
+		// √úBERPR√úFUNG AUF VOLLST√ÑNDIGKEIT
 
 		return false;
 	}

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.swing.AbstractAction;
 import javax.swing.JTable;
 
+import cyk.CYK;
 import cyk.model.interfaces.ICYKModel;
 
 @SuppressWarnings("serial")
@@ -19,7 +20,7 @@ public class ActionTableRemoveRule extends AbstractAction {
 		this.table = table;
 
 		putValue(AbstractAction.SHORT_DESCRIPTION,
-				"Die ausgew‰hlte Regel entfernen");
+				"Die ausgew√§hlte Regel entfernen");
 	}
 
 	@Override
@@ -29,7 +30,9 @@ public class ActionTableRemoveRule extends AbstractAction {
 
 			for (int i : table.getSelectedRows()) {
 				toRemove.add(model.getRule(i));
-				System.out.println(model.getRule(i));
+				if (CYK.DEBUG) {
+					System.out.println(model.getRule(i));
+				}
 			}
 
 			model.removeRules(toRemove);

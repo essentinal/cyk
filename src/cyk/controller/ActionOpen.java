@@ -13,8 +13,8 @@ public class ActionOpen extends AbstractAction {
 	private final CYKMainFrame frame;
 
 	public ActionOpen(CYKMainFrame frame) {
-		super("Öffnen...");
-		putValue(SHORT_DESCRIPTION, "Grammatikdatei öffnen");
+		super("Ã–ffnen...");
+		putValue(SHORT_DESCRIPTION, "Grammatikdatei Ã¶ffnen");
 		putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_O,
 				KeyEvent.CTRL_DOWN_MASK));
 		this.frame = frame;

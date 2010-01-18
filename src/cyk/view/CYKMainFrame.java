@@ -38,7 +38,7 @@ public class CYKMainFrame extends JFrame implements InternalFrameListener {
 	public static final String APPLICATION_NAME = "CYK Algorithmus Demonstrator";
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 600;
-	public static File lastFileChooserDirectory = new File(".");
+	public static File lastFileChooserDirectory = new File("grammar");
 	private JDesktopPane desktop;
 
 	private Action actionSave, actionCloseFrame, actionCascade, actionTile;
@@ -69,7 +69,7 @@ public class CYKMainFrame extends JFrame implements InternalFrameListener {
 		JMenuBar menu = new JMenuBar();
 
 		JMenu menuItem = new JMenu("Datei");
-		menuItem.setToolTipText("Dateimenü");
+		menuItem.setToolTipText("DateimenÃ¼");
 
 		menuItem.add(new ActionNew(this));
 
@@ -92,7 +92,7 @@ public class CYKMainFrame extends JFrame implements InternalFrameListener {
 		menu.add(menuItem);
 
 		menuItem = new JMenu("Fenster");
-		menuItem.setToolTipText("Fenstermenü");
+		menuItem.setToolTipText("FenstermenÃ¼");
 
 		menuItem.add(actionCascade = new ActionCascadeViews(desktop));
 		menuItem.add(actionTile = new ActionTileViews(desktop));
@@ -100,7 +100,7 @@ public class CYKMainFrame extends JFrame implements InternalFrameListener {
 		menu.add(menuItem);
 
 		menuItem = new JMenu("Hilfe");
-		menuItem.setToolTipText("Hilfemenü");
+		menuItem.setToolTipText("HilfemenÃ¼");
 
 		menuItem.add(new ActionAbout());
 
@@ -167,12 +167,12 @@ public class CYKMainFrame extends JFrame implements InternalFrameListener {
 			// e.printStackTrace();
 			JOptionPane.showMessageDialog(this, "Fehler beim Lesen der Datei "
 					+ file.getName()
-					+ ". Die Datei ist keine gültige XML-Grammatikdatei.", "Lesefehler",
+					+ ". Die Datei ist keine gÃ¼ltige XML-Grammatikdatei.", "Lesefehler",
 					JOptionPane.ERROR_MESSAGE);
 		} catch (GrammarParseException e) {
 			// e.printStackTrace();
 			JOptionPane.showMessageDialog(this, "Fehler beim Lesen der Datei "
-					+ file.getName() + ". Die Datei enthält keine gültige Grammatik.",
+					+ file.getName() + ". Die Datei enthÃ¤lt keine gÃ¼ltige Grammatik.",
 					"Lesefehler", JOptionPane.ERROR_MESSAGE);
 		}
 

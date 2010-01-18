@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import cyk.CYK;
 import cyk.model.exceptions.GrammarIncompleteException;
 import cyk.model.exceptions.GrammarNoDeriveException;
 import cyk.model.exceptions.GrammarNoStartruleException;
@@ -15,11 +16,9 @@ public class RandomWord {
 	private HashMap<Integer, List<String>> derivations = new HashMap<Integer, List<String>>();
 	private int length;
 
-	private static final int MAX_DEPTH = 500;
-	private static final int MAX_WIDTH = 500;
+	private static final int MAX_DEPTH = 100;
+	private static final int MAX_WIDTH = 100;
 	private Random rand = new Random();
-
-	private boolean debug = true;
 
 	public RandomWord(Grammar grammar, int length) {
 		this.length = length;
@@ -33,7 +32,7 @@ public class RandomWord {
 
 		}
 
-		if (debug) {
+		if (CYK.DEBUG) {
 			for (Character c : rules.keySet()) {
 				System.out.println("put " + c + ":" + rules.get(c) + " into map");
 			}
@@ -67,7 +66,7 @@ public class RandomWord {
 			}
 		}
 
-		if (debug) {
+		if (CYK.DEBUG) {
 			System.out.println(derivations);
 		}
 
@@ -89,7 +88,7 @@ public class RandomWord {
 	 */
 	private void replaceNonTerminals(String s, String temp, int depth)
 			throws GrammarIncompleteException {
-		if (debug) {
+		if (CYK.DEBUG) {
 			System.out.println(s);
 			System.out.println(temp);
 		}
@@ -127,7 +126,7 @@ public class RandomWord {
 
 		try {
 
-			// iteriere zuf‰llig durch die Liste der Regeln
+			// iteriere zuf√§llig durch die Liste der Regeln
 			RandomIterator<SymbolList> rl = new RandomIterator<SymbolList>(ll);
 			while (rl.hasNext()) {
 				String s2 = s.replaceFirst(String.valueOf(c), rl.next().toString());

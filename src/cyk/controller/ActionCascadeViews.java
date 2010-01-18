@@ -41,8 +41,6 @@ public class ActionCascadeViews extends AbstractAction {
 			}
 		}
 
-		System.out.println("s: " + s);
-
 		for (int i = 0; i < n; i++) {
 			frames[n - i - 1].setBounds(i * s, i * s, w + s, h + s);
 		}

@@ -25,17 +25,16 @@ public class DialogAbout extends JDialog {
 			+ "Der CYK-Algorithmus wurde in den 1960er Jahren zur Erkennung einer Grammatik in <a href='http://de.wikipedia.org/wiki/Chomsky-Normalform'>Chomsky-Normalform</a> entwickelt.<br/><br/>"
 			+ "<b>Eine Grammatik in Chomsky-Normalform (CNF) kann aus folgenden Regeln bestehen.</b><br/><br/>"
 			+ "Die linke Seite einer Regel muss immer aus genau einem Nichtterminalzeichen bestehen.<br/>"
-			+ "Die rechte Seite kann aus einem oder zwei Nichtterminalzeichen bestehen:<br/>"
-			+ "A->B<br/>"
+			+ "Die rechte Seite kann aus zwei Nichtterminalzeichen bestehen:<br/>"
 			+ "A->BC<br/><br/>"
 			+ "Die rechte Seite kann aus genau einem Terminalzeichen bestehen:<br/>"
 			+ "A->a<br/><br/>"
-			+ "Zur Vollst‰ndigkeit muss immer mindestens eine Startregel existieren.<br/>"
+			+ "Zur Vollst√§ndigkeit muss immer mindestens eine Startregel existieren.<br/>"
 			+ "Diese muss das Nichtterminalzeichen S enthalten:<br/>"
-			+ "S->A<br/></html>";
+			+ "S->AA<br/></html>";
 
 	public DialogAbout() {
-		super((Frame) null, "‹ber dieses Programm", true);
+		super((Frame) null, "√úber dieses Programm", true);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setResizable(false);
 
