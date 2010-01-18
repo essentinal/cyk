@@ -12,11 +12,11 @@ public class ActionCheckGrammar extends AbstractAction {
 	private final ICYKModel model;
 
 	public ActionCheckGrammar(ICYKModel model) {
-		super("Grammatik überprüfen");
+		super("Grammatik Ã¼berprÃ¼fen");
 		this.model = model;
 
 		putValue(AbstractAction.SHORT_DESCRIPTION,
-				"Überprüfen, ob die Grammatik in Chomsky-Normalform ist");
+				"ÃœberprÃ¼fen, ob die Grammatik in Chomsky-Normalform ist");
 	}
 
 	@Override
@@ -24,7 +24,7 @@ public class ActionCheckGrammar extends AbstractAction {
 		boolean b = model.checkGrammar();
 
 		JOptionPane.showMessageDialog(null, "Diese ist " + (b ? "eine " : "keine ")
-				+ "gültige Grammatik in Chomsky-Normalform.", "Grammatik überprüft",
+				+ "gÃ¼ltige Grammatik in Chomsky-Normalform.", "Grammatik Ã¼berprÃ¼ft",
 				b ? JOptionPane.INFORMATION_MESSAGE : JOptionPane.ERROR_MESSAGE);
 	}
 }

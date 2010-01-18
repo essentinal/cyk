@@ -12,7 +12,7 @@ public class ActionCancelDialog extends AbstractAction {
 	public ActionCancelDialog(JDialog dialog) {
 		super("Abbrechen");
 		putValue(AbstractAction.SHORT_DESCRIPTION,
-				"Aktion abbrechen und Fenster schlieﬂen");
+				"Aktion abbrechen und Fenster schlie√üen");
 
 		this.dialog = dialog;
 	}

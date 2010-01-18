@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     18.01.2010 13:14:34                                                        
+
+     CYK Algorithmus Demonstrator
+                   
+     Stephan Dreyer, David Walter                                           
+     ====================================================================== -->
+<project name="CYK" default="buildjar">
+	<property name="version" value="0.9" />
+
+	<description>
+		Ant file for building and running the CYK Algorithm Demonstrator classes and jar
+    </description>
+
+	<mkdir dir="build" />
+
+	<path id="build.classpath">
+		<fileset dir="${basedir}" includes="lib/*.jar lib/**/*.jar">
+
+		</fileset>
+	</path>
+
+	<pathconvert property="manifest.classpath" pathsep=" ">
+		<path refid="build.classpath" />
+		<mapper>
+			<chainedmapper>
+				<flattenmapper />
+				<globmapper from="*.jar" to="lib/*.jar" />
+			</chainedmapper>
+		</mapper>
+	</pathconvert>
+
+	<manifestclasspath property="lib.list" jarfile="build/CYK.jar">
+		<classpath refid="build.classpath" />
+	</manifestclasspath>
+
+
+	<!-- ================================= 
+          target: build              
+         ================================= -->
+	<target name="build" depends="clean" description="build class files">
+		<javac srcdir="src" destdir="build" classpathref="build.classpath" debug="on" verbose="on" />
+
+		<mkdir dir="build/lib" />
+		<copy todir="build/lib">
+			<fileset dir="lib" />
+		</copy>
+		<copy todir="build">
+			<fileset dir="src" />
+		</copy>
+	</target>
+
+	<!-- ================================= 
+          target: buildjar              
+         ================================= -->
+	<target name="buildjar" depends="build" description="build jar file">
+		<delete file="build/CYK.jar" failonerror="off" />
+		<delete file="MANIFEST.MF" failonerror="off" />
+		<tstamp>
+			<format property="TODAY" pattern="yyyy-MM-dd HH:mm:ss" />
+		</tstamp>
+
+		<unzip dest="build">
+			<patternset>
+				<exclude name="MANIFEST.MF META-INF/*.MF" />
+			</patternset>
+			<fileset dir="build/lib">
+				<include name="**/*.jar" />
+			</fileset>
+		</unzip>
+
+		<delete dir="build/lib" includeemptydirs="true" />
+		<delete dir="build/license" includeemptydirs="true" />
+
+		<manifest file="MANIFEST.MF">
+			<attribute name="Built-By" value="Stephan Dreyer, David Walter" />
+			<attribute name="Main-Class" value="cyk.CYK" />
+			<attribute name="Built-Date" value="${TODAY}" />
+			<attribute name="Version" value="${version}" />
+			<attribute name="Implementation-Title" value="CYK Algorithmus Demonstrator" />
+			<attribute name="Implementation-Version" value="${version} ${TODAY}" />
+		</manifest>
+
+		<jar destfile="build/CYK.jar" basedir="build" includes="**/*.class **/*.xml" excludes="**/*.txt *.txt META-INF/*.MF lib *.jar **/*.jar *.java" manifest="MANIFEST.MF" />
+
+		<mkdir dir="build/grammar" />
+		<copy todir="build/grammar">
+			<fileset dir="grammar" />
+		</copy>
+	</target>
+
+	<!-- ================================= 
+          target: clean              
+         ================================= -->
+	<target name="clean" description="cleans the bin directory">
+		<delete failonerror="off" includeemptydirs="true">
+			<fileset dir="build" includes="**/*" excludes="CYK.jar grammar/*.xml" />
+			<fileset file="MANIFEST.MF" />
+		</delete>
+		<delete dir="build/lib" failonerror="off" />
+	</target>
+</project>

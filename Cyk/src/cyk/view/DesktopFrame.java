@@ -45,12 +45,17 @@ public class DesktopFrame extends JInternalFrame implements CYKModelListener {
 
 	private ICYKModel model;
 
+	private boolean changed = false;
+
 	public DesktopFrame(String title, JDesktopPane desktop) {
 		super(title, true, true, true, true);
 
 		model = new CYKModel();
 
 		init(desktop);
+
+		changed = true;
+		updateTitle();
 	}
 
 	public DesktopFrame(String title, JDesktopPane desktop, ICYKModel model) {
@@ -62,7 +67,6 @@ public class DesktopFrame extends JInternalFrame implements CYKModelListener {
 	}
 
 	private void init(JDesktopPane desktop) {
-		setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
 		setLayout(new GridBagLayout());
 		GridBagConstraints constraints = new GridBagConstraints();
 		constraints.insets = new Insets(5, 5, 5, 5);
@@ -86,7 +90,7 @@ public class DesktopFrame extends JInternalFrame implements CYKModelListener {
 		setVisible(true);
 	}
 
-	public void save() {
+	public boolean save() {
 		boolean ok = false;
 
 		JFileChooser jfc = new JFileChooser(CYKMainFrame.lastFileChooserDirectory);
@@ -96,7 +100,7 @@ public class DesktopFrame extends JInternalFrame implements CYKModelListener {
 		while (!ok) {
 			int n = jfc.showSaveDialog(null);
 			if (n == JFileChooser.CANCEL_OPTION) {
-				return;
+				return false;
 			}
 
 			File file = jfc.getSelectedFile();
@@ -107,10 +111,10 @@ public class DesktopFrame extends JInternalFrame implements CYKModelListener {
 
 				if (file.exists()) {
 					n = JOptionPane.showConfirmDialog(this, "Die Datei " + file.getName()
-							+ " existiert schon. Soll die Datei �berschrieben werden?.",
+							+ " existiert schon. Soll die Datei überschrieben werden?.",
 							"Datei existiert schon", JOptionPane.YES_NO_CANCEL_OPTION);
 					if (n == JOptionPane.CANCEL_OPTION) {
-						return;
+						return false;
 					} else if (n == JOptionPane.YES_OPTION) {
 						ok = true;
 					}
@@ -124,10 +128,13 @@ public class DesktopFrame extends JInternalFrame implements CYKModelListener {
 
 						model.save(file);
 						setTitle(file.toString());
+						changed = false;
+						updateTitle();
 						JOptionPane.showMessageDialog(this,
 								"Die Grammatik wurde in der Datei " + file.getName()
 										+ " gespeichert.", "Datei gespeichert",
 								JOptionPane.INFORMATION_MESSAGE);
+						return true;
 					} catch (FileNotFoundException e) {
 						// e.printStackTrace();
 						JOptionPane
@@ -143,7 +150,7 @@ public class DesktopFrame extends JInternalFrame implements CYKModelListener {
 				}
 			}
 		}
-
+		return false;
 	}
 
 	private JPanel buildLeftPanel() {
@@ -287,11 +294,53 @@ public class DesktopFrame extends JInternalFrame implements CYKModelListener {
 
 	@Override
 	public void modelChanged() {
+		if (!changed) {
+			changed = true;
+			updateTitle();
+		}
+	}
+
+	private void updateTitle() {
+		String title = getTitle().replace("*", "");
+		if (changed) {
+			title = "*" + title.trim();
+		}
+		setTitle(title);
 	}
 
 	@Override
 	public void ruleAdded() {
 		table.editCellAt(0, 0);
 		((CNFCellEditor) table.getCellEditor(0, 0)).requestFocus();
+	}
+
+	@Override
+	public void dispose() {
+		if (changed) {
+			int n = JOptionPane
+					.showConfirmDialog(
+							null,
+							"Die Grammatik wurde seit der letzten Bearbeitung nicht gespeichert. Möchten Sie die Grammatik speichern?",
+							"Grammatik nicht gespeichert", JOptionPane.YES_NO_CANCEL_OPTION,
+							JOptionPane.WARNING_MESSAGE);
+			switch (n) {
+			case JOptionPane.YES_OPTION:
+				if (save()) {
+					break;
+				} else {
+					return;
+				}
+			case JOptionPane.NO_OPTION:
+				break;
+			case JOptionPane.CANCEL_OPTION:
+				return;
+			}
+		}
+		super.dispose();
+	}
+
+	@Override
+	public void doDefaultCloseAction() {
+		dispose();
 	}
 }

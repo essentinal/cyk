@@ -111,7 +111,7 @@ public class DialogDetail extends JDialog {
 		constraints.fill = GridBagConstraints.BOTH;
 		detailArea = new JTextArea();
 		detailArea.setEditable(false);
-		detailArea.setLineWrap(true);
+		// detailArea.setLineWrap(true);
 		detailPane = new JScrollPane(detailArea);
 		detailPane.setMinimumSize(new Dimension(200, 250));
 		detailPane.setPreferredSize(new Dimension(200, 250));
@@ -161,8 +161,8 @@ public class DialogDetail extends JDialog {
 
 	public class ActionClose extends AbstractAction {
 		public ActionClose() {
-			super("Schlieﬂen");
-			putValue(Action.SHORT_DESCRIPTION, "Den Dialog schlieﬂen");
+			super("Schlie√üen");
+			putValue(Action.SHORT_DESCRIPTION, "Den Dialog schlie√üen");
 		}
 
 		public void actionPerformed(ActionEvent e) {

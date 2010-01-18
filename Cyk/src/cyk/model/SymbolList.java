@@ -9,7 +9,7 @@ import cyk.model.exceptions.GrammarParseException;
 import cyk.model.interfaces.IXML;
 
 /**
- * Einfache Liste von Symbolen mit überschriebener toString()-Methode.
+ * Einfache Liste von Symbolen mit Ã¼berschriebener toString()-Methode.
  * 
  * @author Stephan
  * 

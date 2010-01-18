@@ -1,7 +1,7 @@
 package cyk.model;
 
 /**
- * Klasse für ein Terminalzeichen.
+ * Klasse fÃ¼r ein Terminalzeichen.
  * 
  * @author Stephan
  * 

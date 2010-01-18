@@ -13,7 +13,7 @@ public class ActionAbout extends AbstractAction {
 
 	public ActionAbout() {
 		super("Info...");
-		putValue(SHORT_DESCRIPTION, "Über dieses Programm");
+		putValue(SHORT_DESCRIPTION, "Ãœber dieses Programm");
 		putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_H,
 				KeyEvent.CTRL_DOWN_MASK));
 	}

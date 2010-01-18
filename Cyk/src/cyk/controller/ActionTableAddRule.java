@@ -11,10 +11,10 @@ public class ActionTableAddRule extends AbstractAction {
 	private final ICYKModel model;
 
 	public ActionTableAddRule(ICYKModel model) {
-		super("Hinzufügen");
+		super("HinzufÃ¼gen");
 		this.model = model;
 
-		putValue(AbstractAction.SHORT_DESCRIPTION, "Eine neue Regel hinzufügen");
+		putValue(AbstractAction.SHORT_DESCRIPTION, "Eine neue Regel hinzufÃ¼gen");
 	}
 
 	@Override

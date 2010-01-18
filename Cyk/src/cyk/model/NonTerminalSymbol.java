@@ -1,7 +1,7 @@
 package cyk.model;
 
 /**
- * Klasse für ein Nichtterminalzeichen.
+ * Klasse fÃ¼r ein Nichtterminalzeichen.
  * 
  * @author Stephan
  * 

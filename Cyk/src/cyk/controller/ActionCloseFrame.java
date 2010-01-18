@@ -13,8 +13,8 @@ public class ActionCloseFrame extends AbstractAction {
 	private final CYKMainFrame frame;
 
 	public ActionCloseFrame(CYKMainFrame frame) {
-		super("Grammatik schlieﬂen");
-		putValue(SHORT_DESCRIPTION, "Das Grammatikfenster schlieﬂen");
+		super("Grammatik schlie√üen");
+		putValue(SHORT_DESCRIPTION, "Das Grammatikfenster schlie√üen");
 		putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_C,
 				KeyEvent.CTRL_DOWN_MASK));
 		this.frame = frame;

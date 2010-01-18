@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Dies ist eine Hilfsklasse, um in zufälliger Reihenfolge durch eine Liste zu
+ * Dies ist eine Hilfsklasse, um in zufÃ¤lliger Reihenfolge durch eine Liste zu
  * iterieren.
  * 
  * @author Stephan

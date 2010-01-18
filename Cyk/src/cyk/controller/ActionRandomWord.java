@@ -18,7 +18,7 @@ public class ActionRandomWord extends AbstractAction {
 		this.inputWordField = inputWordField;
 		this.model = model;
 
-		putValue(AbstractAction.SHORT_DESCRIPTION, "Ein Wort zuf‰llig erzeugen");
+		putValue(AbstractAction.SHORT_DESCRIPTION, "Ein Wort zuf√§llig erzeugen");
 	}
 
 	@Override
