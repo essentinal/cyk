@@ -7,9 +7,20 @@ import javax.swing.UIManager;
 
 import cyk.view.CYKMainFrame;
 
+/**
+ * Diese Klasse startet das Hauptprogramm. Die <code>main</code>-Funktion stellt
+ * den Prozedureinstiegspunkt des Programms dar.
+ * 
+ * @author Stephan
+ */
 public class CYK {
 	public static boolean DEBUG = false;
 
+	/**
+	 * Main Funktion des Programms
+	 * 
+	 * @param args Startargumente
+	 */
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override

@@ -62,7 +62,7 @@ public class ActionCheckWord extends AbstractAction {
 			}
 			dd.setTitle("Erkennung abgeschlossen");
 			dd.setText(text);
-			dd.setDetail(sb.toString());
+			dd.setDetailText(sb.toString());
 			dd.setIcon(b ? IconType.InformationIcon : IconType.ErrorIcon);
 			dd.setVisible(true);
 

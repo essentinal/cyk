@@ -33,6 +33,11 @@ import cyk.model.CYKModel;
 import cyk.model.exceptions.GrammarParseException;
 import cyk.model.interfaces.ICYKModel;
 
+/**
+ * Dies ist das Hauptfenster der Anwendung.
+ * 
+ * @author Stephan
+ */
 @SuppressWarnings("serial")
 public class CYKMainFrame extends JFrame implements InternalFrameListener {
 	public static final String APPLICATION_NAME = "CYK Algorithmus Demonstrator";
@@ -43,6 +48,9 @@ public class CYKMainFrame extends JFrame implements InternalFrameListener {
 
 	private Action actionSave, actionCloseFrame, actionCascade, actionTile;
 
+	/**
+	 * Erzeugt ein neues CYKMainFrame.
+	 */
 	public CYKMainFrame() {
 		super(APPLICATION_NAME);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -53,7 +61,7 @@ public class CYKMainFrame extends JFrame implements InternalFrameListener {
 
 		add(desktop);
 
-		// init menu bar
+		// Menüleiste initialisieren
 		setJMenuBar(buildMenuBar());
 
 		int maxX = Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -65,9 +73,15 @@ public class CYKMainFrame extends JFrame implements InternalFrameListener {
 		setSize(WIDTH, HEIGHT);
 	}
 
+	/**
+	 * Initialisiert die Menüleiste des Fensters.
+	 * 
+	 * @return Menüleiste
+	 */
 	private JMenuBar buildMenuBar() {
 		JMenuBar menu = new JMenuBar();
 
+		// Dateimenü
 		JMenu menuItem = new JMenu("Datei");
 		menuItem.setToolTipText("Dateimenü");
 
@@ -91,6 +105,7 @@ public class CYKMainFrame extends JFrame implements InternalFrameListener {
 
 		menu.add(menuItem);
 
+		// Fenstermenü
 		menuItem = new JMenu("Fenster");
 		menuItem.setToolTipText("Fenstermenü");
 
@@ -99,6 +114,7 @@ public class CYKMainFrame extends JFrame implements InternalFrameListener {
 
 		menu.add(menuItem);
 
+		// Hilfemenü
 		menuItem = new JMenu("Hilfe");
 		menuItem.setToolTipText("Hilfemenü");
 
@@ -106,11 +122,15 @@ public class CYKMainFrame extends JFrame implements InternalFrameListener {
 
 		menu.add(menuItem);
 
-		updateSaveAction();
+		updateActions();
 
 		return menu;
 	}
 
+	/**
+	 * Erzeugt ein neues DesktopFrame (und damit auch eine neue Grammatik) und
+	 * fügt dieses dem Desktop hinzu.
+	 */
 	public void newDesktopFrame() {
 		DesktopFrame frame = new DesktopFrame("Neue Grammatik", desktop);
 		frame.addInternalFrameListener(this);
@@ -125,6 +145,10 @@ public class CYKMainFrame extends JFrame implements InternalFrameListener {
 		}
 	}
 
+	/**
+	 * Führt das Laden einer Grammatik aus einer Datei durch. Dabei öffnet sich
+	 * ein JFileChooser zum Auswählen der Datei.
+	 */
 	public void load() {
 		JFileChooser jfc = new JFileChooser(CYKMainFrame.lastFileChooserDirectory);
 		jfc
@@ -178,11 +202,18 @@ public class CYKMainFrame extends JFrame implements InternalFrameListener {
 
 	}
 
+	/**
+	 * Schließt das aktuelle Frame.
+	 */
 	public void closeActiveFrame() {
 		desktop.getSelectedFrame().dispose();
 	}
 
-	private void updateSaveAction() {
+	/**
+	 * Aktualisiert die Actions zum Speichern und Schließen des aktuellen
+	 * Fensters, je nachdem ob ein Fenster ausgewählt/geöffnet ist.
+	 */
+	private void updateActions() {
 		JInternalFrame f = desktop.getSelectedFrame();
 		boolean b = (f != null);
 
@@ -195,39 +226,67 @@ public class CYKMainFrame extends JFrame implements InternalFrameListener {
 		actionCascade.setEnabled(b);
 	}
 
+	/**
+	 * Callback-Methode des InternalFrameListeners. Bei Veränderungen wird updateActions() aufgerufen. 
+	 * @see javax.swing.event.InternalFrameListener#internalFrameActivated(javax.swing.event.InternalFrameEvent)
+	 */
 	@Override
 	public void internalFrameActivated(InternalFrameEvent e) {
-		updateSaveAction();
+		updateActions();
 	}
 
+	/**
+	 * Callback-Methode des InternalFrameListeners. Bei Veränderungen wird updateActions() aufgerufen. 
+	 * @see javax.swing.event.InternalFrameListener#internalFrameClosed(javax.swing.event.InternalFrameEvent)
+	 */
 	@Override
 	public void internalFrameClosed(InternalFrameEvent e) {
-		updateSaveAction();
+		updateActions();
 	}
 
+	/**
+	 * Callback-Methode des InternalFrameListeners. Bei Veränderungen wird updateActions() aufgerufen. 
+	 * @see javax.swing.event.InternalFrameListener#internalFrameClosing(javax.swing.event.InternalFrameEvent)
+	 */
 	@Override
 	public void internalFrameClosing(InternalFrameEvent e) {
-		updateSaveAction();
+		updateActions();
 	}
 
+	/**
+	 * Callback-Methode des InternalFrameListeners. Bei Veränderungen wird updateActions() aufgerufen. 
+	 * @see javax.swing.event.InternalFrameListener#internalFrameDeactivated(javax.swing.event.InternalFrameEvent)
+	 */
 	@Override
 	public void internalFrameDeactivated(InternalFrameEvent e) {
-		updateSaveAction();
+		updateActions();
 	}
 
+	/**
+	 * Callback-Methode des InternalFrameListeners. Bei Veränderungen wird updateActions() aufgerufen. 
+	 * @see javax.swing.event.InternalFrameListener#internalFrameDeiconified(javax.swing.event.InternalFrameEvent)
+	 */
 	@Override
 	public void internalFrameDeiconified(InternalFrameEvent e) {
-		updateSaveAction();
+		updateActions();
 	}
 
+	/**
+	 * Callback-Methode des InternalFrameListeners. Bei Veränderungen wird updateActions() aufgerufen. 
+	 * @see javax.swing.event.InternalFrameListener#internalFrameIconified(javax.swing.event.InternalFrameEvent)
+	 */
 	@Override
 	public void internalFrameIconified(InternalFrameEvent e) {
-		updateSaveAction();
+		updateActions();
 	}
 
+	/**
+	 * Callback-Methode des InternalFrameListeners. Bei Veränderungen wird updateActions() aufgerufen. 
+	 * @see javax.swing.event.InternalFrameListener#internalFrameOpened(javax.swing.event.InternalFrameEvent)
+	 */
 	@Override
 	public void internalFrameOpened(InternalFrameEvent e) {
-		updateSaveAction();
+		updateActions();
 	}
 
 }

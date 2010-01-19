@@ -34,14 +34,15 @@ public class CYKModel implements ICYKModel {
 	private String cykTable[][];
 
 	public CYKModel() {
-		// TODO: FOR DEBUGGING ONLY
-		try {
-			grammar.add(new Rule("S->AA"));
-			grammar.add(new Rule("A->AA"));
-			grammar.add(new Rule("A->a"));
-		} catch (RuleException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+		if (CYK.DEBUG) {
+			// FOR DEBUGGING ONLY
+			try {
+				grammar.add(new Rule("S->AA"));
+				grammar.add(new Rule("A->AA"));
+				grammar.add(new Rule("A->a"));
+			} catch (RuleException e) {
+			}
 		}
 
 	}
@@ -121,7 +122,7 @@ public class CYKModel implements ICYKModel {
 							leftNonTerminal = rule.getRight().get(0).getCharacter();
 							rightNonTerminal = rule.getRight().get(1).getCharacter();
 
-							tmpString = cykTable[k-1][j];
+							tmpString = cykTable[k - 1][j];
 							if (CYK.DEBUG) {
 								System.out.println(rule);
 								System.out.println(i + "," + j + ":" + tmpString);
@@ -130,7 +131,8 @@ public class CYKModel implements ICYKModel {
 								if (leftNonTerminal == tmpString.charAt(y)) {
 									tmpString = cykTable[i - k][j + k];
 									for (z = 0; z < tmpString.length(); z++) {
-										if (rightNonTerminal == tmpString.charAt(z) && !cykTable[i][j].contains(rule.getLeft().toString())) {
+										if (rightNonTerminal == tmpString.charAt(z)
+												&& !cykTable[i][j].contains(rule.getLeft().toString())) {
 											cykTable[i][j] = cykTable[i][j]
 													+ rule.getLeft().toString();
 										}
@@ -189,52 +191,60 @@ public class CYKModel implements ICYKModel {
 	}
 
 	@Override
-	public void checkGrammar() throws RuleNotNeededException, GrammarIsNotInCnfException {
-		
-		for(Rule rule: grammar ) {
-			//Regeln der Form X->Y überprüfen   Y muss Terminalsymbol sein
-			if(rule.getRight().size() == 1) {
-				if(rule.getRight().get(0) instanceof NonTerminalSymbol) {
-					throw new GrammarIsNotInCnfException("Die Grammatik enthält eine Regel der Form A->B.");
+	public void checkGrammar() throws RuleNotNeededException,
+			GrammarIsNotInCnfException {
+
+		for (Rule rule : grammar) {
+			// Regeln der Form X->Y überprüfen Y muss Terminalsymbol sein
+			if (rule.getRight().size() == 1) {
+				if (rule.getRight().get(0) instanceof NonTerminalSymbol) {
+					throw new GrammarIsNotInCnfException(
+							"Die Grammatik enthält eine Regel der Form A->B.");
 				}
-			//Regeln der Form X->YZ überprüfen   Y und Z müssen Nichtterminalsymbole sein
-			} else if(rule.getRight().size() == 2) {
-				if(rule.getRight().get(0) instanceof TerminalSymbol || rule.getRight().get(1) instanceof TerminalSymbol) {
-					throw new GrammarIsNotInCnfException("Die Grammatik enthält eine Regel der Form A->aA, A->Aa oder A->aa.");
+				// Regeln der Form X->YZ überprüfen Y und Z müssen Nichtterminalsymbole
+				// sein
+			} else if (rule.getRight().size() == 2) {
+				if (rule.getRight().get(0) instanceof TerminalSymbol
+						|| rule.getRight().get(1) instanceof TerminalSymbol) {
+					throw new GrammarIsNotInCnfException(
+							"Die Grammatik enthält eine Regel der Form A->aA, A->Aa oder A->aa.");
 				}
-			//Gibt es weitere Regeln mit unzulässiger Form
-			} else if(rule.getRight().size() == 0){
-				throw new GrammarIsNotInCnfException("Die Grammatik enthält eine Regel, die keine rechte Seite hat.");
+				// Gibt es weitere Regeln mit unzulässiger Form
+			} else if (rule.getRight().size() == 0) {
+				throw new GrammarIsNotInCnfException(
+						"Die Grammatik enthält eine Regel, die keine rechte Seite hat.");
 			} else {
-				throw new GrammarIsNotInCnfException("Die Grammatik enthält eine Regel, die auf der rechten Seite mehr als 2 Zeichen hat.");
+				throw new GrammarIsNotInCnfException(
+						"Die Grammatik enthält eine Regel, die auf der rechten Seite mehr als 2 Zeichen hat.");
 			}
 		}
-		
+
 		NonTerminalSymbol tmpRuleLeft;
 		boolean b = false;
-		
-		//Überprüfung auf unnötige Regeln (Bsp.: S->A A->1 B->0 | B ist unnötig)
-		for(Rule aktRule: grammar) {
+
+		// Überprüfung auf unnötige Regeln (Bsp.: S->A A->1 B->0 | B ist unnötig)
+		for (Rule aktRule : grammar) {
 			tmpRuleLeft = aktRule.getLeft();
 			b = false;
-			for(Rule rules: grammar) {
-				if(rules.getRight().size() == 1) {
-					if(rules.getRight().get(0) == tmpRuleLeft){
+			for (Rule rules : grammar) {
+				if (rules.getRight().size() == 1) {
+					if (rules.getRight().get(0) == tmpRuleLeft) {
 						b = true;
 						break;
 					}
-				} else if(rules.getRight().size() == 2){
-					if(rules.getRight().get(0) == tmpRuleLeft || rules.getRight().get(1) == tmpRuleLeft){
+				} else if (rules.getRight().size() == 2) {
+					if (rules.getRight().get(0) == tmpRuleLeft
+							|| rules.getRight().get(1) == tmpRuleLeft) {
 						b = true;
 						break;
 					}
 				}
 			}
-			if(!b) {
+			if (!b) {
 				throw new RuleNotNeededException();
 			}
 		}
-				
+
 	}
 
 	@Override

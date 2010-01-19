@@ -36,6 +36,12 @@ import cyk.model.Rule;
 import cyk.model.interfaces.CYKModelListener;
 import cyk.model.interfaces.ICYKModel;
 
+/**
+ * Erweitertes JInternalFrame, mit dem eine Grammatik erzeugt, bearbeitet und
+ * getestet werden kann.
+ * 
+ * @author Stephan
+ */
 @SuppressWarnings("serial")
 public class DesktopFrame extends JInternalFrame implements CYKModelListener {
 	private RuleTableModel tableModel;
@@ -45,8 +51,17 @@ public class DesktopFrame extends JInternalFrame implements CYKModelListener {
 
 	private ICYKModel model;
 
+	// zeigt an, ob die Grammatik geändert wurde / gespeichert werden muss
 	private boolean changed = false;
 
+	/**
+	 * Erzeugt ein neues DesktopFrame mit einem neuen CYKModel.
+	 * 
+	 * @param title
+	 *          Name des Fensters
+	 * @param desktop
+	 *          Desktop, welcher dieses Fenster beinhaltet
+	 */
 	public DesktopFrame(String title, JDesktopPane desktop) {
 		super(title, true, true, true, true);
 
@@ -58,6 +73,17 @@ public class DesktopFrame extends JInternalFrame implements CYKModelListener {
 		updateTitle();
 	}
 
+	/**
+	 * Erzeugt ein neues DesktopFrame mit einem bereits bestehenden CYKModel,
+	 * welchen z.B. aus einer Datei geladen wurde.
+	 * 
+	 * @param title
+	 *          Name des Fensters
+	 * @param desktop
+	 *          Desktop, welcher dieses Fenster beinhaltet
+	 * @param model
+	 *          CYKModel, welches verwendet werden soll
+	 */
 	public DesktopFrame(String title, JDesktopPane desktop, ICYKModel model) {
 		super(title, true, true, true, true);
 
@@ -66,6 +92,12 @@ public class DesktopFrame extends JInternalFrame implements CYKModelListener {
 		init(desktop);
 	}
 
+	/**
+	 * Initialisiert das Fenster und macht es sichtbar.
+	 * 
+	 * @param desktop
+	 *          Desktop, auf dem das Fenster angezeigt wird.
+	 */
 	private void init(JDesktopPane desktop) {
 		setLayout(new GridBagLayout());
 		GridBagConstraints constraints = new GridBagConstraints();
@@ -90,69 +122,11 @@ public class DesktopFrame extends JInternalFrame implements CYKModelListener {
 		setVisible(true);
 	}
 
-	public boolean save() {
-		boolean ok = false;
-
-		JFileChooser jfc = new JFileChooser(CYKMainFrame.lastFileChooserDirectory);
-		jfc
-				.setFileFilter(new FileNameExtensionFilter("XML Grammatik-Datei", "xml"));
-
-		while (!ok) {
-			int n = jfc.showSaveDialog(null);
-			if (n == JFileChooser.CANCEL_OPTION) {
-				return false;
-			}
-
-			File file = jfc.getSelectedFile();
-			if (file != null) {
-				if (!file.getName().endsWith(".xml")) {
-					file = new File(file.getAbsolutePath() + ".xml");
-				}
-
-				if (file.exists()) {
-					n = JOptionPane.showConfirmDialog(this, "Die Datei " + file.getName()
-							+ " existiert schon. Soll die Datei überschrieben werden?.",
-							"Datei existiert schon", JOptionPane.YES_NO_CANCEL_OPTION);
-					if (n == JOptionPane.CANCEL_OPTION) {
-						return false;
-					} else if (n == JOptionPane.YES_OPTION) {
-						ok = true;
-					}
-				} else {
-					ok = true;
-				}
-
-				if (ok) {
-					try {
-						CYKMainFrame.lastFileChooserDirectory = file.getParentFile();
-
-						model.save(file);
-						setTitle(file.toString());
-						changed = false;
-						updateTitle();
-						JOptionPane.showMessageDialog(this,
-								"Die Grammatik wurde in der Datei " + file.getName()
-										+ " gespeichert.", "Datei gespeichert",
-								JOptionPane.INFORMATION_MESSAGE);
-						return true;
-					} catch (FileNotFoundException e) {
-						// e.printStackTrace();
-						JOptionPane
-								.showMessageDialog(this, "Die Datei " + file.getName()
-										+ " wurde nicht gefunden.", "Fehler",
-										JOptionPane.ERROR_MESSAGE);
-					} catch (IOException e) {
-						// e.printStackTrace();
-						JOptionPane.showMessageDialog(this,
-								"Ausgabefehler beim Schreiben der Datei " + file.getName()
-										+ ".", "Fehler", JOptionPane.ERROR_MESSAGE);
-					}
-				}
-			}
-		}
-		return false;
-	}
-
+	/**
+	 * Erzeugt das linke Panel, welches die Grammatik anzeigt.
+	 * 
+	 * @return JPanel
+	 */
 	private JPanel buildLeftPanel() {
 		JPanel panel = new JPanel();
 		panel.setBorder(BorderFactory.createTitledBorder("Grammatik"));
@@ -227,6 +201,12 @@ public class DesktopFrame extends JInternalFrame implements CYKModelListener {
 
 	}
 
+	/**
+	 * Erzeugt das rechte Panel, welches das Wort und den Button zum Überprüfen
+	 * des Worts anzeigt.
+	 * 
+	 * @return JPanel
+	 */
 	private JPanel buildRightPanel() {
 		JPanel panel = new JPanel();
 		panel.setBorder(BorderFactory.createTitledBorder("Eingabewort"));
@@ -288,18 +268,18 @@ public class DesktopFrame extends JInternalFrame implements CYKModelListener {
 		return panel;
 	}
 
+	/**
+	 * Deaktiviert/Aktiviert die Action zum Überprüfen des Wortes je nachdem, ob
+	 * das Wort leer ist oder nicht.
+	 */
 	private void updateAction() {
 		actionCheckWord.setEnabled(!inputWordField.getText().isEmpty());
 	}
 
-	@Override
-	public void modelChanged() {
-		if (!changed) {
-			changed = true;
-			updateTitle();
-		}
-	}
-
+	/**
+	 * Setzt den Titel des Fensters, und fügt diesem ein Stern (*) hinzu, wenn die
+	 * Grammatik noch nicht gespeichert wurde.
+	 */
 	private void updateTitle() {
 		String title = getTitle().replace("*", "");
 		if (changed) {
@@ -308,12 +288,102 @@ public class DesktopFrame extends JInternalFrame implements CYKModelListener {
 		setTitle(title);
 	}
 
+	/**
+	 * Speichert die aktuelle Grammatik in einer Datei. Vor dem Speichern wird zum
+	 * Auswählen der Datei ein JFileChooser geöffnet.
+	 * 
+	 * @return Gibt zurück, ob die Datei gespeichert werden konnte.
+	 */
+	public boolean save() {
+		boolean ok = false;
+
+		JFileChooser jfc = new JFileChooser(CYKMainFrame.lastFileChooserDirectory);
+		jfc
+				.setFileFilter(new FileNameExtensionFilter("XML Grammatik-Datei", "xml"));
+
+		while (!ok) {
+			int n = jfc.showSaveDialog(null);
+			if (n == JFileChooser.CANCEL_OPTION) {
+				return false;
+			}
+
+			File file = jfc.getSelectedFile();
+			if (file != null) {
+				if (!file.getName().endsWith(".xml")) {
+					file = new File(file.getAbsolutePath() + ".xml");
+				}
+
+				if (file.exists()) {
+					n = JOptionPane.showConfirmDialog(this, "Die Datei " + file.getName()
+							+ " existiert schon. Soll die Datei überschrieben werden?.",
+							"Datei existiert schon", JOptionPane.YES_NO_CANCEL_OPTION);
+					if (n == JOptionPane.CANCEL_OPTION) {
+						return false;
+					} else if (n == JOptionPane.YES_OPTION) {
+						ok = true;
+					}
+				} else {
+					ok = true;
+				}
+
+				if (ok) {
+					try {
+						CYKMainFrame.lastFileChooserDirectory = file.getParentFile();
+
+						model.save(file);
+						setTitle(file.toString());
+						changed = false;
+						updateTitle();
+						JOptionPane.showMessageDialog(this,
+								"Die Grammatik wurde in der Datei " + file.getName()
+										+ " gespeichert.", "Datei gespeichert",
+								JOptionPane.INFORMATION_MESSAGE);
+						return true;
+					} catch (FileNotFoundException e) {
+						// e.printStackTrace();
+						JOptionPane
+								.showMessageDialog(this, "Die Datei " + file.getName()
+										+ " wurde nicht gefunden.", "Fehler",
+										JOptionPane.ERROR_MESSAGE);
+					} catch (IOException e) {
+						// e.printStackTrace();
+						JOptionPane.showMessageDialog(this,
+								"Ausgabefehler beim Schreiben der Datei " + file.getName()
+										+ ".", "Fehler", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Callback-Methode, die informiert, sobald sich im Model was geändert hat.
+	 * 
+	 * @see cyk.model.interfaces.CYKModelListener#modelChanged()
+	 */
+	@Override
+	public void modelChanged() {
+		if (!changed) {
+			changed = true;
+			updateTitle();
+		}
+	}
+
+	/**
+	 * Callback-Methode, die informiert, sobald den Model eine Regel hinzugefügt wurde.
+	 * 
+	 * @see cyk.model.interfaces.CYKModelListener#ruleAdded()
+	 */
 	@Override
 	public void ruleAdded() {
 		table.editCellAt(0, 0);
 		((CNFCellEditor) table.getCellEditor(0, 0)).requestFocus();
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.JInternalFrame#dispose()
+	 */
 	@Override
 	public void dispose() {
 		if (changed) {
@@ -339,6 +409,9 @@ public class DesktopFrame extends JInternalFrame implements CYKModelListener {
 		super.dispose();
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.JInternalFrame#doDefaultCloseAction()
+	 */
 	@Override
 	public void doDefaultCloseAction() {
 		dispose();
