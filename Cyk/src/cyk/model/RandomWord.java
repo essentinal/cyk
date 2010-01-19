@@ -11,6 +11,11 @@ import cyk.model.exceptions.GrammarNoDeriveException;
 import cyk.model.exceptions.GrammarNoStartruleException;
 import cyk.util.RandomIterator;
 
+/**
+ * Klasse, die die Funktionalität zum Erzeugen eines Zufallswortes kapselt.
+ * 
+ * @author Stephan
+ */
 public class RandomWord {
 	private HashMap<Character, List<SymbolList>> rules = new HashMap<Character, List<SymbolList>>();
 	private HashMap<Integer, List<String>> derivations = new HashMap<Integer, List<String>>();
@@ -20,6 +25,15 @@ public class RandomWord {
 	private static final int MAX_WIDTH = 100;
 	private Random rand = new Random();
 
+	/**
+	 * Initialisiert die Klasse RandomWord mit einer Grammatik und der gewünschten
+	 * Länge für ein Zufallswort.
+	 * 
+	 * @param grammar
+	 *          Grammatik
+	 * @param length
+	 *          Gewünschte Länge
+	 */
 	public RandomWord(Grammar grammar, int length) {
 		this.length = length;
 		for (Rule r : grammar) {
@@ -76,7 +90,7 @@ public class RandomWord {
 	}
 
 	/**
-	 * Nichtterminalzeichen rekursiv ersetzen
+	 * Nichtterminalzeichen rekursiv ersetzen.
 	 * 
 	 * @param s
 	 *          String, in dem ersetzt werden soll
@@ -84,7 +98,8 @@ public class RandomWord {
 	 *          String, der die Ableitungen zwischenspeichert
 	 * @param depth
 	 *          Aktuelle Ableitungstiefe
-	 * @throws StackOverflowError
+	 * @throws GrammarIncompleteException
+	 *           Unvollständige Grammatik
 	 */
 	private void replaceNonTerminals(String s, String temp, int depth)
 			throws GrammarIncompleteException {
