@@ -97,7 +97,7 @@ public class CYKModel implements ICYKModel {
 		for (i = 0; i < n; i++) {
 			cykTable[0][i] = "";
 			for (Rule rule : grammar) {
-				if (rule.getRight().size() == 1) {
+				if (rule.isTerminalRule()) {
 					if (wordCharArray[i] == rule.getRight().get(0).getCharacter()) {
 						cykTable[0][i] = cykTable[0][i] + rule.getLeft().toString();
 					}
@@ -119,7 +119,7 @@ public class CYKModel implements ICYKModel {
 				cykTable[i][j] = "";
 				for (k = 1; k <= i; k++) {
 					for (Rule rule : grammar) {
-						if (rule.getRight().size() == 2) {
+						if (!rule.isTerminalRule()) {
 							leftNonTerminal = rule.getRight().get(0).getCharacter();
 							rightNonTerminal = rule.getRight().get(1).getCharacter();
 
@@ -196,7 +196,7 @@ public class CYKModel implements ICYKModel {
 		boolean s = false;
 		
 		for(Rule rule: grammar ) {
-			if(rule.getLeft().getCharacter() == 'S') {
+			if(rule.isStartRule()) {
 				s = true;
 			}
 		}
@@ -207,21 +207,16 @@ public class CYKModel implements ICYKModel {
 		
 		for(Rule rule: grammar ) {
 			//Regeln der Form X->Y überprüfen   Y muss Terminalsymbol sein
-			if(rule.getRight().size() == 1) {
+			if(rule.isTerminalRule()) {
 				if(rule.getRight().get(0) instanceof NonTerminalSymbol) {
 					throw new GrammarIsNotInCnfException("Die Grammatik enthält eine Regel der Form A->B.");
 				}
 			//Regeln der Form X->YZ überprüfen   Y und Z müssen Nichtterminalsymbole sein
-			} else if(rule.getRight().size() == 2) {
+			} else if(!rule.isTerminalRule()) {
 				if(rule.getRight().get(0) instanceof TerminalSymbol || rule.getRight().get(1) instanceof TerminalSymbol) {
 					throw new GrammarIsNotInCnfException("Die Grammatik enthält eine Regel der Form A->aA, A->Aa oder A->aa.");
 				}
-			//Gibt es weitere Regeln mit unzulässiger Form
-			} else if(rule.getRight().size() == 0){
-				throw new GrammarIsNotInCnfException("Die Grammatik enthält eine Regel, die keine rechte Seite hat.");
-			} else {
-				throw new GrammarIsNotInCnfException("Die Grammatik enthält eine Regel, die auf der rechten Seite mehr als 2 Zeichen hat.");
-			}
+			} 
 		}
 		
 		NonTerminalSymbol tmpRuleRightLeft, tmpRuleRightRight;
@@ -263,14 +258,14 @@ public class CYKModel implements ICYKModel {
 		for(Rule aktRule: grammar) {
 			tmpRuleLeft = aktRule.getLeft();
 			b = false;
-			if(tmpRuleLeft.getCharacter() != 'S'){
+			if(!aktRule.isStartRule()){
 				for(Rule rules: grammar) {
-					if(rules.getRight().size() == 1) {
+					if(rules.isTerminalRule()) {
 						if(rules.getRight().get(0).getCharacter() == tmpRuleLeft.getCharacter()){
 							b = true;
 							break;
 						}
-					} else if(rules.getRight().size() == 2){
+					} else if(!rules.isTerminalRule()){
 						if(rules.getRight().get(0).getCharacter() == tmpRuleLeft.getCharacter() || 
 								rules.getRight().get(1).getCharacter() == tmpRuleLeft.getCharacter()){
 							b = true;
