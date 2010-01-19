@@ -6,6 +6,11 @@ import javax.swing.AbstractAction;
 
 import cyk.model.interfaces.ICYKModel;
 
+/**
+ * Action zum Hinzufügen einer Regel zur Grammatik.
+ * 
+ * @author Stephan
+ */
 @SuppressWarnings("serial")
 public class ActionTableAddRule extends AbstractAction {
 	private final ICYKModel model;

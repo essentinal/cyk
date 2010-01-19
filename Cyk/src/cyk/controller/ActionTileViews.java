@@ -10,6 +10,11 @@ import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.KeyStroke;
 
+/**
+ * Action zum gekachelten Anordnen der Fenster.
+ * 
+ * @author Stephan
+ */
 @SuppressWarnings("serial")
 public class ActionTileViews extends AbstractAction {
 

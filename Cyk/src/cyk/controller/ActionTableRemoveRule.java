@@ -9,6 +9,11 @@ import javax.swing.JTable;
 import cyk.CYK;
 import cyk.model.interfaces.ICYKModel;
 
+/**
+ * Action zum Entfernen einer Regel von der Grammatik.
+ * 
+ * @author Stephan
+ */
 @SuppressWarnings("serial")
 public class ActionTableRemoveRule extends AbstractAction {
 	private final ICYKModel model;

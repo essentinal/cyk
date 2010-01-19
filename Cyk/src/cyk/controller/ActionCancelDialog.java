@@ -5,6 +5,11 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JDialog;
 
+/**
+ * Action zum Abbrechen und Schließen eines Dialoges.
+ * 
+ * @author Stephan
+ */
 @SuppressWarnings("serial")
 public class ActionCancelDialog extends AbstractAction {
 	private final JDialog dialog;
