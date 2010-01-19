@@ -6,6 +6,11 @@ import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 import javax.swing.KeyStroke;
 
+/**
+ * Action zum Beenden der Anwendung.
+ * 
+ * @author Stephan
+ */
 @SuppressWarnings("serial")
 public class ActionExit extends AbstractAction {
 	public ActionExit() {

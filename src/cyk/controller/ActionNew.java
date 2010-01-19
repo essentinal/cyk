@@ -8,6 +8,11 @@ import javax.swing.KeyStroke;
 
 import cyk.view.CYKMainFrame;
 
+/**
+ * Action zum Erzeugen einer neuen Grammatik.
+ * 
+ * @author Stephan
+ */
 @SuppressWarnings("serial")
 public class ActionNew extends AbstractAction {
 	private final CYKMainFrame frame;

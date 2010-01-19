@@ -10,6 +10,11 @@ import cyk.model.interfaces.ICYKModel;
 import cyk.view.DialogDetail;
 import cyk.view.DialogDetail.IconType;
 
+/**
+ * Action zum Überprüfen eines Wortes.
+ * 
+ * @author Stephan
+ */
 @SuppressWarnings("serial")
 public class ActionCheckWord extends AbstractAction {
 	private final ICYKModel model;

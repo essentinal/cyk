@@ -9,6 +9,11 @@ import javax.swing.KeyStroke;
 
 import cyk.view.DesktopFrame;
 
+/**
+ * Action zum Speichern einer Grammatik.
+ * 
+ * @author Stephan
+ */
 @SuppressWarnings("serial")
 public class ActionSave extends AbstractAction {
 	private final JDesktopPane desktop;

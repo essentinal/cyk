@@ -10,6 +10,11 @@ import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.KeyStroke;
 
+/**
+ * Action zum Kaskadieren von Ansichten.
+ * 
+ * @author Stephan
+ */
 @SuppressWarnings("serial")
 public class ActionCascadeViews extends AbstractAction {
 	private final JDesktopPane desktop;

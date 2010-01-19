@@ -8,6 +8,11 @@ import javax.swing.KeyStroke;
 
 import cyk.view.DialogAbout;
 
+/**
+ * Action zum Anzeigen des About-Dialoges.
+ * 
+ * @author Stephan
+ */
 @SuppressWarnings("serial")
 public class ActionAbout extends AbstractAction {
 

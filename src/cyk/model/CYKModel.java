@@ -34,6 +34,9 @@ public class CYKModel implements ICYKModel {
 	// die tabelle für den cyk-algorithmus
 	private String cykTable[][];
 
+	/**
+	 * Erzeugt ein neues CYKModel.
+	 */
 	public CYKModel() {
 
 		if (CYK.DEBUG) {
@@ -48,6 +51,9 @@ public class CYKModel implements ICYKModel {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see cyk.model.interfaces.ICYKModel#addRule()
+	 */
 	@Override
 	public void addRule() {
 		try {
@@ -59,6 +65,9 @@ public class CYKModel implements ICYKModel {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see cyk.model.interfaces.ICYKModel#setRuleAt(cyk.model.Rule, int)
+	 */
 	@Override
 	public void setRuleAt(Rule rule, int index) {
 		if (!getRule(index).equals(rule)) {
@@ -68,22 +77,34 @@ public class CYKModel implements ICYKModel {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see cyk.model.interfaces.ICYKModel#getRule(int)
+	 */
 	@Override
 	public Rule getRule(int i) {
 		return grammar.get(i);
 	}
 
+	/* (non-Javadoc)
+	 * @see cyk.model.interfaces.ICYKModel#getSize()
+	 */
 	@Override
 	public int getSize() {
 		return grammar.size();
 	}
 
+	/* (non-Javadoc)
+	 * @see cyk.model.interfaces.ICYKModel#removeRules(java.util.List)
+	 */
 	@Override
 	public void removeRules(List<Object> values) {
 		grammar.removeAll(values);
 		fireModelChanged();
 	}
 
+	/* (non-Javadoc)
+	 * @see cyk.model.interfaces.ICYKModel#parseWord(java.lang.String)
+	 */
 	@Override
 	public boolean parseWord(String word) {
 		int i, j, k, y, z;
@@ -173,16 +194,25 @@ public class CYKModel implements ICYKModel {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see cyk.model.interfaces.ICYKModel#getTable()
+	 */
 	@Override
 	public String[][] getTable() {
 		return cykTable;
 	}
 
+	/* (non-Javadoc)
+	 * @see cyk.model.interfaces.ICYKModel#save(java.io.File)
+	 */
 	@Override
 	public void save(File file) throws FileNotFoundException, IOException {
 		XMLUtil.output(grammar.toXml(), file);
 	}
 
+	/* (non-Javadoc)
+	 * @see cyk.model.interfaces.ICYKModel#load(java.io.File)
+	 */
 	@Override
 	public void load(File file) throws JDOMException, IOException,
 			GrammarParseException {
@@ -191,6 +221,9 @@ public class CYKModel implements ICYKModel {
 		fireModelChanged();
 	}
 
+	/* (non-Javadoc)
+	 * @see cyk.model.interfaces.ICYKModel#checkGrammar()
+	 */
 	@Override
 	public void checkGrammar() throws RuleNotNeededException, GrammarIsNotInCnfException, GrammarIncompleteException, RuleHasNoEscapeException {
 		boolean s = false;
@@ -280,23 +313,36 @@ public class CYKModel implements ICYKModel {
 		}			
 	}
 
+	/* (non-Javadoc)
+	 * @see cyk.model.interfaces.ICYKModel#addCYKModelListener(cyk.model.interfaces.CYKModelListener)
+	 */
 	@Override
 	public void addCYKModelListener(CYKModelListener listener) {
 		listeners.add(listener);
 	}
 
+	/**
+	 * Feuert ein modelChanged()-Event für alle Listener.
+	 */
 	private void fireModelChanged() {
 		for (CYKModelListener l : listeners) {
 			l.modelChanged();
 		}
 	}
 
+	/**
+	 * Feuert ein ruleAdded()-Event für alle Listener.
+	 */
 	private void fireRuleAdded() {
 		for (CYKModelListener l : listeners) {
 			l.ruleAdded();
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see cyk.model.interfaces.ICYKModel#getRandomWord(int)
+	 */
+	@Override
 	public String getRandomWord(int length) throws GrammarIncompleteException,
 			GrammarNoDeriveException, GrammarNoStartruleException {
 		return new RandomWord(grammar, length).derive("S");

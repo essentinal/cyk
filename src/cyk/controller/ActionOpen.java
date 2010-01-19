@@ -8,6 +8,11 @@ import javax.swing.KeyStroke;
 
 import cyk.view.CYKMainFrame;
 
+/**
+ * Action zum Öffnen einer Grammatik.
+ * 
+ * @author Stephan
+ */
 @SuppressWarnings("serial")
 public class ActionOpen extends AbstractAction {
 	private final CYKMainFrame frame;

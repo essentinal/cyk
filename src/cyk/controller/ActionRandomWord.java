@@ -8,6 +8,11 @@ import javax.swing.JTextField;
 import cyk.model.interfaces.ICYKModel;
 import cyk.view.DialogRandomWord;
 
+/**
+ * Action zum Erzeugen eines Zufallswortes.
+ * 
+ * @author Stephan
+ */
 @SuppressWarnings("serial")
 public class ActionRandomWord extends AbstractAction {
 	private final JTextField inputWordField;

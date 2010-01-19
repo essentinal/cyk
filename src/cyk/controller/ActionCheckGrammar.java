@@ -11,6 +11,11 @@ import cyk.model.exceptions.RuleHasNoEscapeException;
 import cyk.model.exceptions.RuleNotNeededException;
 import cyk.model.interfaces.ICYKModel;
 
+/**
+ * Action zum Überprüfen der Grammatik.
+ * 
+ * @author Stephan
+ */
 @SuppressWarnings("serial")
 public class ActionCheckGrammar extends AbstractAction {
 	private final ICYKModel model;

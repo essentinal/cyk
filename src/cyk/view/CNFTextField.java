@@ -56,7 +56,8 @@ public class CNFTextField extends JTextField implements KeyListener {
 	}
 
 	/**
-	 * Callback-Methode des Keylisteners. Wertet Tastatureingaben aus.
+	 * Callback-Methode des Keylisteners. Wertet Tastatureingaben aus.<br>
+	 * Hier findet die Einschränkung der Editiermöglichkeiten statt.
 	 * 
 	 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
 	 */

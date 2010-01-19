@@ -8,6 +8,11 @@ import javax.swing.KeyStroke;
 
 import cyk.view.CYKMainFrame;
 
+/**
+ * Action zum Schließen eines Desktopframes.
+ * 
+ * @author Stephan
+ */
 @SuppressWarnings("serial")
 public class ActionCloseFrame extends AbstractAction {
 	private final CYKMainFrame frame;
