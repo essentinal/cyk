@@ -14,6 +14,11 @@ import javax.swing.event.HyperlinkListener;
 
 import cyk.controller.ActionCloseDialog;
 
+/**
+ * Dialog zum Anzeigen der Informationen über das Programm.
+ * 
+ * @author Stephan
+ */
 @SuppressWarnings("serial")
 public class DialogAbout extends JDialog {
 	private static final String TEXT_ABOUT = "<html><h2>"
@@ -33,6 +38,9 @@ public class DialogAbout extends JDialog {
 			+ "Diese muss das Nichtterminalzeichen S enthalten:<br/>"
 			+ "S->AA<br/></html>";
 
+	/**
+	 * Erzeugt einen neuen DialogAbout.
+	 */
 	public DialogAbout() {
 		super((Frame) null, "Über dieses Programm", true);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -77,6 +85,12 @@ public class DialogAbout extends JDialog {
 
 	}
 
+	/**
+	 * Öffnet eine URL im Browser des Systems. Wird benötigt, um die Hyperlinks anzuzeigen.
+	 * 
+	 * @param url
+	 * @throws Exception
+	 */
 	private void openBrowser(String url) throws Exception {
 		String osName = System.getProperty("os.name");
 		try {

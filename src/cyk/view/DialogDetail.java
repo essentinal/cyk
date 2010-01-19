@@ -17,6 +17,13 @@ import javax.swing.JTextArea;
 import javax.swing.JToggleButton;
 import javax.swing.UIManager;
 
+import cyk.controller.ActionCloseDialog;
+
+/**
+ * Dialog zum Anzeigen von Text und Details.
+ * 
+ * @author Stephan
+ */
 @SuppressWarnings("serial")
 public class DialogDetail extends JDialog {
 
@@ -27,6 +34,13 @@ public class DialogDetail extends JDialog {
 	private JScrollPane detailPane;
 	private JTextArea detailArea;
 
+	/**
+	 * enum, welche die Typen der Icons definiert.<br>
+	 * Es gibt ein ErrorIcon, zum Anzeigen von Fehlern, und ein InformationIcon,
+	 * welches eine simple Information darstellt.
+	 * 
+	 * @author Stephan
+	 */
 	public enum IconType {
 		ErrorIcon, InformationIcon;
 		public String toString() {
@@ -34,6 +48,9 @@ public class DialogDetail extends JDialog {
 		};
 	}
 
+	/**
+	 * Erzeugt einen neuen DialogDetail.
+	 */
 	public DialogDetail() {
 		super((Frame) null);
 		setAlwaysOnTop(true);
@@ -98,7 +115,7 @@ public class DialogDetail extends JDialog {
 		constraints.weightx = 0.0;
 		constraints.weighty = 0.0;
 		constraints.fill = GridBagConstraints.NONE;
-		closeButton = new JButton(new ActionClose());
+		closeButton = new JButton(new ActionCloseDialog(this));
 		add(closeButton, constraints);
 
 		// details
@@ -123,6 +140,11 @@ public class DialogDetail extends JDialog {
 
 	}
 
+	/**
+	 * Setzt ein neues Icon in dem Dialog.
+	 * 
+	 * @param type Typ des Icons
+	 */
 	public void setIcon(IconType type) {
 		try {
 			iconLabel.setIcon(UIManager.getIcon("OptionPane." + type.toString()));
@@ -132,21 +154,41 @@ public class DialogDetail extends JDialog {
 		}
 	}
 
-	public void setText(String s) {
-		textLabel.setText(s);
+	/**
+	 * Setzt einen neuen Text
+	 * 
+	 * @param text Text der gesetzt werden soll.
+	 */
+	public void setText(String text) {
+		textLabel.setText(text);
 		pack();
 	}
 
+	/**
+	 * Zeigt Details an oder versteckt diese.
+	 * 
+	 * @param visible Details anzeigen oder nicht.
+	 */
 	public void setDetailsVisible(boolean visible) {
 		detailButton.setSelected(visible);
 		detailPane.setVisible(visible);
 		pack();
 	}
 
-	public void setDetail(String s) {
-		detailArea.setText(s);
+	/**
+	 * Setzt einen neuen Detailtext.
+	 * 
+	 * @param text Detailtext
+	 */
+	public void setDetailText(String text) {
+		detailArea.setText(text);
 	}
 
+	/**
+	 * Zeigt Details an oder versteckt diese.
+	 * 
+	 * @author Stephan
+	 */
 	public class ActionDetail extends AbstractAction {
 		public ActionDetail() {
 			super("Details");
@@ -156,17 +198,6 @@ public class DialogDetail extends JDialog {
 
 		public void actionPerformed(ActionEvent e) {
 			setDetailsVisible(detailButton.isSelected());
-		}
-	}
-
-	public class ActionClose extends AbstractAction {
-		public ActionClose() {
-			super("Schließen");
-			putValue(Action.SHORT_DESCRIPTION, "Den Dialog schließen");
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			dispose();
 		}
 	}
 }

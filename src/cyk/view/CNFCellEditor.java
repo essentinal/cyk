@@ -12,15 +12,33 @@ import cyk.CYK;
 import cyk.model.Rule;
 import cyk.model.exceptions.RuleException;
 
+/**
+ * Erweiterter CellEditor zur Eingabe von Regeln in CNF.
+ * 
+ * @see javax.swing.AbstractCellEditor
+ * @author Stephan
+ */
 @SuppressWarnings("serial")
 public class CNFCellEditor extends AbstractCellEditor implements
 		TableCellEditor {
 	private CNFTextField textField;
 
+	/**
+	 * Erzeugt einen neuen CNFCellEditor
+	 */
 	public CNFCellEditor() {
 		textField = new CNFTextField();
 	}
 
+	/*
+	 * Initialisiert das Editor-Textfeld zur Bearbeitung einer Regel.
+	 * 
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * javax.swing.table.TableCellEditor#getTableCellEditorComponent(javax.swing
+	 * .JTable, java.lang.Object, boolean, int, int)
+	 */
 	public Component getTableCellEditorComponent(JTable table, Object value,
 			boolean isSelected, int row, int column) {
 		if (value instanceof Rule) {
@@ -31,6 +49,13 @@ public class CNFCellEditor extends AbstractCellEditor implements
 		return textField;
 	}
 
+	/*
+	 * Zellen sollen durch Doppelklick editierbar sein.
+	 * 
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.swing.AbstractCellEditor#isCellEditable(java.util.EventObject)
+	 */
 	@Override
 	public boolean isCellEditable(EventObject e) {
 		if (e instanceof MouseEvent) {
@@ -39,6 +64,13 @@ public class CNFCellEditor extends AbstractCellEditor implements
 		return true;
 	}
 
+	/*
+	 * Gibt die Regel zurück, die durch den Editor erzeugt wurde.
+	 * 
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.swing.CellEditor#getCellEditorValue()
+	 */
 	public Object getCellEditorValue() {
 		if (CYK.DEBUG) {
 			System.out.println("CNFCellEditor.getCellEditorValue() - "
@@ -59,6 +91,9 @@ public class CNFCellEditor extends AbstractCellEditor implements
 		return rule;
 	}
 
+	/**
+	 * Fordert den Focus im aktuellen Fenster an.
+	 */
 	public void requestFocus() {
 		textField.requestFocusInWindow();
 	}
