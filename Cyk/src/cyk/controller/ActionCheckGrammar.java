@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 
 import cyk.model.exceptions.GrammarIncompleteException;
 import cyk.model.exceptions.GrammarIsNotInCnfException;
+import cyk.model.exceptions.RuleHasNoEscapeException;
 import cyk.model.exceptions.RuleNotNeededException;
 import cyk.model.interfaces.ICYKModel;
 
@@ -38,6 +39,9 @@ public class ActionCheckGrammar extends AbstractAction {
 		} catch (GrammarIncompleteException e) {
 			JOptionPane.showMessageDialog(null, "Diese ist keine gültige Grammatik in Chomsky-Normalform. " +
 					e.getMessage(), "Grammatik überprüft", JOptionPane.ERROR_MESSAGE );
+		} catch (RuleHasNoEscapeException e) {
+			JOptionPane.showMessageDialog(null, "Diese ist keine gültige Grammatik in Chomsky-Normalform. " +
+					"Die Grammatik enthält eine \"Sackgassenregel\". ", "Grammatik überprüft", JOptionPane.ERROR_MESSAGE );
 		}
 	}
 }

@@ -13,6 +13,7 @@ import cyk.model.exceptions.GrammarIsNotInCnfException;
 import cyk.model.exceptions.GrammarNoDeriveException;
 import cyk.model.exceptions.GrammarNoStartruleException;
 import cyk.model.exceptions.GrammarParseException;
+import cyk.model.exceptions.RuleHasNoEscapeException;
 import cyk.model.exceptions.RuleNotNeededException;
 
 /**
@@ -91,9 +92,10 @@ public interface ICYKModel {
 	 *           Grammatik weicht von der CNF-Notation ab
 	 * @throws GrammarIncompleteException
 	 *           Grammatik ist unvollständig
+	 * @throws RuleHasNoEscapeException 
 	 */
 	public void checkGrammar() throws RuleNotNeededException,
-			GrammarIsNotInCnfException, GrammarIncompleteException;
+			GrammarIsNotInCnfException, GrammarIncompleteException, RuleHasNoEscapeException;
 
 	/**
 	 * Gibt die CYK-Tabelle zurück. Bevor <code>parseWord()</code> aufgerufen

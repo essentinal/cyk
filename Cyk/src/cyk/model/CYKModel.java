@@ -15,6 +15,7 @@ import cyk.model.exceptions.GrammarNoDeriveException;
 import cyk.model.exceptions.GrammarNoStartruleException;
 import cyk.model.exceptions.GrammarParseException;
 import cyk.model.exceptions.RuleException;
+import cyk.model.exceptions.RuleHasNoEscapeException;
 import cyk.model.exceptions.RuleNotNeededException;
 import cyk.model.interfaces.CYKModelListener;
 import cyk.model.interfaces.ICYKModel;
@@ -191,7 +192,7 @@ public class CYKModel implements ICYKModel {
 	}
 
 	@Override
-	public void checkGrammar() throws RuleNotNeededException, GrammarIsNotInCnfException, GrammarIncompleteException {
+	public void checkGrammar() throws RuleNotNeededException, GrammarIsNotInCnfException, GrammarIncompleteException, RuleHasNoEscapeException {
 		boolean s = false;
 		
 		for(Rule rule: grammar ) {
@@ -221,6 +222,38 @@ public class CYKModel implements ICYKModel {
 			} else {
 				throw new GrammarIsNotInCnfException("Die Grammatik enthält eine Regel, die auf der rechten Seite mehr als 2 Zeichen hat.");
 			}
+		}
+		
+		NonTerminalSymbol tmpRuleRightLeft, tmpRuleRightRight;
+		boolean a = false;
+		
+		//Überprüfung auf Sackgassenregeln
+		for(Rule aktRule: grammar) {
+			if(aktRule.getRight().size() == 2) {
+				tmpRuleRightLeft = (NonTerminalSymbol) aktRule.getRight().get(0);
+				tmpRuleRightRight = (NonTerminalSymbol) aktRule.getRight().get(1);
+				a = false;
+				for(Rule rules: grammar) {
+					if(tmpRuleRightLeft.getCharacter() == rules.getLeft().getCharacter()) {
+						a = true;
+						break;
+					}
+				}
+				if(!a) {
+					throw new RuleHasNoEscapeException();
+				}
+				
+				a = false;
+				for(Rule rules: grammar) {
+					if(tmpRuleRightRight.getCharacter() == rules.getLeft().getCharacter()) {
+						a = true;
+						break;
+					}
+				}
+				if(!a) {
+					throw new RuleHasNoEscapeException();
+				}				
+			}		
 		}
 		
 		NonTerminalSymbol tmpRuleLeft;
