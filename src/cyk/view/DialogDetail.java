@@ -54,6 +54,7 @@ public class DialogDetail extends JDialog {
 	public DialogDetail() {
 		super((Frame) null);
 		setAlwaysOnTop(true);
+		setModal(true);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setResizable(false);
 
