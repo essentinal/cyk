@@ -191,60 +191,65 @@ public class CYKModel implements ICYKModel {
 	}
 
 	@Override
-	public void checkGrammar() throws RuleNotNeededException,
-			GrammarIsNotInCnfException {
-
-		for (Rule rule : grammar) {
-			// Regeln der Form X->Y überprüfen Y muss Terminalsymbol sein
-			if (rule.getRight().size() == 1) {
-				if (rule.getRight().get(0) instanceof NonTerminalSymbol) {
-					throw new GrammarIsNotInCnfException(
-							"Die Grammatik enthält eine Regel der Form A->B.");
-				}
-				// Regeln der Form X->YZ überprüfen Y und Z müssen Nichtterminalsymbole
-				// sein
-			} else if (rule.getRight().size() == 2) {
-				if (rule.getRight().get(0) instanceof TerminalSymbol
-						|| rule.getRight().get(1) instanceof TerminalSymbol) {
-					throw new GrammarIsNotInCnfException(
-							"Die Grammatik enthält eine Regel der Form A->aA, A->Aa oder A->aa.");
-				}
-				// Gibt es weitere Regeln mit unzulässiger Form
-			} else if (rule.getRight().size() == 0) {
-				throw new GrammarIsNotInCnfException(
-						"Die Grammatik enthält eine Regel, die keine rechte Seite hat.");
-			} else {
-				throw new GrammarIsNotInCnfException(
-						"Die Grammatik enthält eine Regel, die auf der rechten Seite mehr als 2 Zeichen hat.");
+	public void checkGrammar() throws RuleNotNeededException, GrammarIsNotInCnfException, GrammarIncompleteException {
+		boolean s = false;
+		
+		for(Rule rule: grammar ) {
+			if(rule.getLeft().getCharacter() == 'S') {
+				s = true;
 			}
 		}
-
+		
+		if(!s) {
+			throw new GrammarIncompleteException("Die Grammatik enthält keine Startregel.");
+		}
+		
+		for(Rule rule: grammar ) {
+			//Regeln der Form X->Y überprüfen   Y muss Terminalsymbol sein
+			if(rule.getRight().size() == 1) {
+				if(rule.getRight().get(0) instanceof NonTerminalSymbol) {
+					throw new GrammarIsNotInCnfException("Die Grammatik enthält eine Regel der Form A->B.");
+				}
+			//Regeln der Form X->YZ überprüfen   Y und Z müssen Nichtterminalsymbole sein
+			} else if(rule.getRight().size() == 2) {
+				if(rule.getRight().get(0) instanceof TerminalSymbol || rule.getRight().get(1) instanceof TerminalSymbol) {
+					throw new GrammarIsNotInCnfException("Die Grammatik enthält eine Regel der Form A->aA, A->Aa oder A->aa.");
+				}
+			//Gibt es weitere Regeln mit unzulässiger Form
+			} else if(rule.getRight().size() == 0){
+				throw new GrammarIsNotInCnfException("Die Grammatik enthält eine Regel, die keine rechte Seite hat.");
+			} else {
+				throw new GrammarIsNotInCnfException("Die Grammatik enthält eine Regel, die auf der rechten Seite mehr als 2 Zeichen hat.");
+			}
+		}
+		
 		NonTerminalSymbol tmpRuleLeft;
 		boolean b = false;
-
-		// Überprüfung auf unnötige Regeln (Bsp.: S->A A->1 B->0 | B ist unnötig)
-		for (Rule aktRule : grammar) {
+		
+		//Überprüfung auf unnötige Regeln (Bsp.: S->A A->1 B->0 | B ist unnötig)
+		for(Rule aktRule: grammar) {
 			tmpRuleLeft = aktRule.getLeft();
 			b = false;
-			for (Rule rules : grammar) {
-				if (rules.getRight().size() == 1) {
-					if (rules.getRight().get(0) == tmpRuleLeft) {
-						b = true;
-						break;
-					}
-				} else if (rules.getRight().size() == 2) {
-					if (rules.getRight().get(0) == tmpRuleLeft
-							|| rules.getRight().get(1) == tmpRuleLeft) {
-						b = true;
-						break;
+			if(tmpRuleLeft.getCharacter() != 'S'){
+				for(Rule rules: grammar) {
+					if(rules.getRight().size() == 1) {
+						if(rules.getRight().get(0).getCharacter() == tmpRuleLeft.getCharacter()){
+							b = true;
+							break;
+						}
+					} else if(rules.getRight().size() == 2){
+						if(rules.getRight().get(0).getCharacter() == tmpRuleLeft.getCharacter() || 
+								rules.getRight().get(1).getCharacter() == tmpRuleLeft.getCharacter()){
+							b = true;
+							break;
+						}
 					}
 				}
-			}
-			if (!b) {
-				throw new RuleNotNeededException();
-			}
-		}
-
+				if(!b) {
+					throw new RuleNotNeededException();
+				}
+			} 
+		}			
 	}
 
 	@Override
