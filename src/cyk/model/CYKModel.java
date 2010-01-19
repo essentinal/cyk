@@ -9,6 +9,7 @@ import java.util.List;
 import org.jdom.JDOMException;
 
 import cyk.CYK;
+import cyk.model.exceptions.GrammarHasALoopRuleException;
 import cyk.model.exceptions.GrammarIncompleteException;
 import cyk.model.exceptions.GrammarIsNotInCnfException;
 import cyk.model.exceptions.GrammarNoDeriveException;
@@ -225,7 +226,7 @@ public class CYKModel implements ICYKModel {
 	 * @see cyk.model.interfaces.ICYKModel#checkGrammar()
 	 */
 	@Override
-	public void checkGrammar() throws RuleNotNeededException, GrammarIsNotInCnfException, GrammarIncompleteException, RuleHasNoEscapeException {
+	public void checkGrammar() throws RuleNotNeededException, GrammarIsNotInCnfException, GrammarIncompleteException, RuleHasNoEscapeException, GrammarHasALoopRuleException {
 		boolean s = false;
 		
 		for(Rule rule: grammar ) {
@@ -252,40 +253,60 @@ public class CYKModel implements ICYKModel {
 			} 
 		}
 		
+		NonTerminalSymbol tmpRuleLeft;
+		boolean b = false;
+		
+		//Überprüfung ob es eine Regel der Form A->AB oder A->AA gibt, für die es keine weitere Regel A->.. gibt.
+		for(Rule aktRule: grammar) {
+			tmpRuleLeft = aktRule.getLeft();
+			b = false;
+			if(!aktRule.isTerminalRule()) {
+				if(aktRule.getRight().get(0).getCharacter() == tmpRuleLeft.getCharacter() || aktRule.getRight().get(1).getCharacter() == tmpRuleLeft.getCharacter()) {
+					for(Rule rules: grammar){
+						if(!aktRule.equals(rules)) {
+							if(rules.getLeft().getCharacter() == tmpRuleLeft.getCharacter()){
+								b = true;
+								break;
+							}
+						}
+					}
+					if(!b){
+						throw new GrammarHasALoopRuleException("Die Grammatik enthält eine Endlosschleife.");
+					}
+				}
+			}
+		}
+		
 		NonTerminalSymbol tmpRuleRightLeft, tmpRuleRightRight;
-		boolean a = false;
 		
 		//Überprüfung auf Sackgassenregeln
 		for(Rule aktRule: grammar) {
-			if(aktRule.getRight().size() == 2) {
+			if(!aktRule.isTerminalRule()) {
 				tmpRuleRightLeft = (NonTerminalSymbol) aktRule.getRight().get(0);
 				tmpRuleRightRight = (NonTerminalSymbol) aktRule.getRight().get(1);
-				a = false;
+				b = false;
 				for(Rule rules: grammar) {
 					if(tmpRuleRightLeft.getCharacter() == rules.getLeft().getCharacter()) {
-						a = true;
+						b = true;
 						break;
 					}
 				}
-				if(!a) {
+				if(!b) {
 					throw new RuleHasNoEscapeException();
 				}
 				
-				a = false;
+				b = false;
 				for(Rule rules: grammar) {
 					if(tmpRuleRightRight.getCharacter() == rules.getLeft().getCharacter()) {
-						a = true;
+						b = true;
 						break;
 					}
 				}
-				if(!a) {
+				if(!b) {
 					throw new RuleHasNoEscapeException();
 				}				
 			}		
 		}
-		
-		NonTerminalSymbol tmpRuleLeft;
-		boolean b = false;
 		
 		//Überprüfung auf unnötige Regeln (Bsp.: S->A A->1 B->0 | B ist unnötig)
 		for(Rule aktRule: grammar) {

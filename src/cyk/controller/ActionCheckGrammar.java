@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
+import cyk.model.exceptions.GrammarHasALoopRuleException;
 import cyk.model.exceptions.GrammarIncompleteException;
 import cyk.model.exceptions.GrammarIsNotInCnfException;
 import cyk.model.exceptions.RuleHasNoEscapeException;
@@ -57,6 +58,11 @@ public class ActionCheckGrammar extends AbstractAction {
 							"Dies ist keine gültige Grammatik in Chomsky-Normalform.\n"
 									+ "Die Grammatik enthält Nichtterminalsymbole, die durch keine Regel ersetzt werden können. ",
 							"Grammatik überprüft", JOptionPane.ERROR_MESSAGE);
+		} catch (GrammarHasALoopRuleException e) {
+			JOptionPane.showMessageDialog(null,
+					"Dies ist keine gültige Grammatik in Chomsky-Normalform. "
+							+ e.getMessage(), "Grammatik überprüft",
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 }
