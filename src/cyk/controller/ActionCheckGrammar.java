@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
+import cyk.model.exceptions.GrammarIsNotInCnfException;
+import cyk.model.exceptions.RuleNotNeededException;
 import cyk.model.interfaces.ICYKModel;
 
 @SuppressWarnings("serial")
@@ -21,10 +23,17 @@ public class ActionCheckGrammar extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		boolean b = model.checkGrammar();
-
-		JOptionPane.showMessageDialog(null, "Diese ist " + (b ? "eine " : "keine ")
-				+ "gültige Grammatik in Chomsky-Normalform.", "Grammatik überprüft",
-				b ? JOptionPane.INFORMATION_MESSAGE : JOptionPane.ERROR_MESSAGE);
+		try {
+			model.checkGrammar();
+			JOptionPane.showMessageDialog(null, "Diese ist eine gültige Grammatik in Chomsky-Normalform.", 
+					"Grammatik überprüft", JOptionPane.INFORMATION_MESSAGE );		
+		} catch (RuleNotNeededException e1) {
+			JOptionPane.showMessageDialog(null, "Diese ist eine gültige Grammatik in Chomsky-Normalform, " +
+					"aber enthält überflüssige Regeln.", "Grammatik überprüft",
+					JOptionPane.INFORMATION_MESSAGE );
+		} catch (GrammarIsNotInCnfException s) {
+			JOptionPane.showMessageDialog(null, "Diese ist keine gültige Grammatik in Chomsky-Normalform. " +
+					s, "Grammatik überprüft", JOptionPane.ERROR_MESSAGE );
+		}
 	}
 }
