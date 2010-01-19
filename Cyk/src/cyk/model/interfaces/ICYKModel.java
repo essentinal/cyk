@@ -8,6 +8,7 @@ import java.util.List;
 import org.jdom.JDOMException;
 
 import cyk.model.Rule;
+import cyk.model.exceptions.GrammarHasALoopRuleException;
 import cyk.model.exceptions.GrammarIncompleteException;
 import cyk.model.exceptions.GrammarIsNotInCnfException;
 import cyk.model.exceptions.GrammarNoDeriveException;
@@ -93,9 +94,10 @@ public interface ICYKModel {
 	 * @throws GrammarIncompleteException
 	 *           Grammatik ist unvollständig
 	 * @throws RuleHasNoEscapeException 
+	 * @throws GrammarHasALoopRuleException 
 	 */
 	public void checkGrammar() throws RuleNotNeededException,
-			GrammarIsNotInCnfException, GrammarIncompleteException, RuleHasNoEscapeException;
+			GrammarIsNotInCnfException, GrammarIncompleteException, RuleHasNoEscapeException, GrammarHasALoopRuleException;
 
 	/**
 	 * Gibt die CYK-Tabelle zurück. Bevor <code>parseWord()</code> aufgerufen
