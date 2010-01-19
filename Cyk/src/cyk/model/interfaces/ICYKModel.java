@@ -28,7 +28,7 @@ public interface ICYKModel {
 	public String getRandomWord(int length) throws GrammarIncompleteException,
 			GrammarNoDeriveException, GrammarNoStartruleException;
 
-	public void checkGrammar() throws RuleNotNeededException, GrammarIsNotInCnfException;
+	public void checkGrammar() throws RuleNotNeededException, GrammarIsNotInCnfException, GrammarIncompleteException;
 
 	public String[][] getTable();
 
