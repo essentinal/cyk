@@ -22,6 +22,11 @@ import cyk.model.exceptions.GrammarNoDeriveException;
 import cyk.model.exceptions.GrammarNoStartruleException;
 import cyk.model.interfaces.ICYKModel;
 
+/**
+ * Dialog zum Erzeugen eines Zufallsworts einer vorgegebenen Länge.
+ * 
+ * @author Stephan
+ */
 @SuppressWarnings("serial")
 public class DialogRandomWord extends JDialog {
 	private static int lastLength = 6;
@@ -30,6 +35,12 @@ public class DialogRandomWord extends JDialog {
 	private final JTextField textField;
 	private final ICYKModel model;
 
+	/**
+	 * Erzeugt einen neuen DialogRandomWord.
+	 * 
+	 * @param textField Textfield, in welches das Zufallswort geschrieben wird
+	 * @param model CYKModel, welches die Grammatik enthält
+	 */
 	public DialogRandomWord(JTextField textField, ICYKModel model) {
 		super((Frame) null, "Zufallswort erzeugen", true);
 		this.textField = textField;
@@ -92,6 +103,12 @@ public class DialogRandomWord extends JDialog {
 
 	}
 
+	/**
+	 * Action zum Erzeugen eines neuen Zufallsworts.
+	 * 
+	 * @author Dolioz
+	 *
+	 */
 	private class ActionOK extends AbstractAction {
 		public ActionOK() {
 			super("OK");
