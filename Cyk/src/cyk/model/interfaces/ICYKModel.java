@@ -9,9 +9,11 @@ import org.jdom.JDOMException;
 
 import cyk.model.Rule;
 import cyk.model.exceptions.GrammarIncompleteException;
+import cyk.model.exceptions.GrammarIsNotInCnfException;
 import cyk.model.exceptions.GrammarNoDeriveException;
 import cyk.model.exceptions.GrammarNoStartruleException;
 import cyk.model.exceptions.GrammarParseException;
+import cyk.model.exceptions.RuleNotNeededException;
 
 public interface ICYKModel {
 	public void addCYKModelListener(CYKModelListener listener);
@@ -26,7 +28,7 @@ public interface ICYKModel {
 	public String getRandomWord(int length) throws GrammarIncompleteException,
 			GrammarNoDeriveException, GrammarNoStartruleException;
 
-	public boolean checkGrammar();
+	public void checkGrammar() throws RuleNotNeededException, GrammarIsNotInCnfException;
 
 	public String[][] getTable();
 
