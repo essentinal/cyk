@@ -12,6 +12,9 @@ public class TerminalSymbol extends Symbol {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see cyk.model.Symbol#isTerminal()
+	 */
 	@Override
 	public boolean isTerminal() {
 		return true;

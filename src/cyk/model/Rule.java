@@ -18,6 +18,12 @@ public class Rule implements IXML {
 	private NonTerminalSymbol left;
 	private SymbolList right;
 
+	/**
+	 * Erzeugt eine CNF-Regel aus einem String.
+	 * 
+	 * @param s String der einzulesen ist
+	 * @throws RuleException keine gültige CNF-Regel
+	 */
 	public Rule(String s) throws RuleException {
 		if (!s.matches("[A-Z]->[A-Z][A-Z]") && !s.matches("[A-Z]->[a-z0-9]")) {
 			throw new RuleException(s + " is no valid rule!");
@@ -48,26 +54,51 @@ public class Rule implements IXML {
 		}
 	}
 
+	/**
+	 * Erzeugt eine CNF-Regel aus einem XML-Element.
+	 * 
+	 * @param e Element, das geparst werden soll
+	 * @throws GrammarParseException Grammatik kann nicht geparst werden
+	 */
 	public Rule(Element e) throws GrammarParseException {
 		parse(e);
 	}
 
+	/**
+	 * Gibt die linke Seite der Regel zurück.
+	 * @return Linke Seite
+	 */
 	public NonTerminalSymbol getLeft() {
 		return left;
 	}
 
+	/**
+	 * Gibt die rechte Seite der Regel zurück.
+	 * @return Rechte Seite
+	 */
 	public SymbolList getRight() {
 		return right;
 	}
 
+	/**
+	 * Gibt zurück, ob diese Regel eine Startregel ist.
+	 * @return Ist die Regel eine Startregel
+	 */
 	public boolean isStartRule() {
 		return left.getCharacter() == 'S';
 	}
 
+	/**
+	 * Gibt zurück, ob diese Regel eine TerminalRegel ist.
+	 * @return Ist die Regel eine TerminalRegel
+	 */
 	public boolean isTerminalRule() {
 		return right.get(0).isTerminal();
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Rule) {
@@ -76,11 +107,17 @@ public class Rule implements IXML {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return left.toString() + "->" + right.toString();
 	}
 
+	/* (non-Javadoc)
+	 * @see cyk.model.interfaces.IXML#parse(org.jdom.Element)
+	 */
 	@Override
 	public void parse(Element element) throws GrammarParseException {
 		try {
@@ -93,6 +130,9 @@ public class Rule implements IXML {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see cyk.model.interfaces.IXML#toXml()
+	 */
 	@Override
 	public Element toXml() {
 		Element rule = new Element("rule");
