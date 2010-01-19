@@ -150,6 +150,10 @@ public class CYKMainFrame extends JFrame implements InternalFrameListener {
 	 * ein JFileChooser zum Auswählen der Datei.
 	 */
 	public void load() {
+		if (!CYKMainFrame.lastFileChooserDirectory.isDirectory()){
+			CYKMainFrame.lastFileChooserDirectory = CYKMainFrame.lastFileChooserDirectory.getParentFile();
+		}
+		
 		JFileChooser jfc = new JFileChooser(CYKMainFrame.lastFileChooserDirectory);
 		jfc
 				.setFileFilter(new FileNameExtensionFilter("XML Grammatik-Datei", "xml"));

@@ -296,6 +296,10 @@ public class DesktopFrame extends JInternalFrame implements CYKModelListener {
 	 */
 	public boolean save() {
 		boolean ok = false;
+		
+		if (!CYKMainFrame.lastFileChooserDirectory.isDirectory()){
+			CYKMainFrame.lastFileChooserDirectory = CYKMainFrame.lastFileChooserDirectory.getParentFile();
+		}
 
 		JFileChooser jfc = new JFileChooser(CYKMainFrame.lastFileChooserDirectory);
 		jfc
