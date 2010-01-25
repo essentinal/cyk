@@ -23,6 +23,12 @@ public class ActionAbout extends AbstractAction {
 				KeyEvent.CTRL_DOWN_MASK));
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	public void actionPerformed(ActionEvent e) {
 		new DialogAbout();
 	}

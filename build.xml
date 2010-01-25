@@ -100,4 +100,15 @@
 		</delete>
 		<delete dir="build/lib" failonerror="off" />
 	</target>
+	
+	<!-- ================================= 
+          target: javadoc              
+         ================================= -->
+	<target name="javadoc"  description="creates the javadoc for this project">
+		<mkdir dir="javadoc" />
+		<javadoc charset="utf-8" doctitle="CYK Algorithmus Demonstrator" sourcepath="src" destdir="javadoc">
+		
+		</javadoc>
+	
+	</target>
 </project>
